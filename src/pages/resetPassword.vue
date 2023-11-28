@@ -55,13 +55,15 @@
 
 <script>
 import userAuth from "../composible/userAuthUser";
+import usenotification from "src/composible/useNotify";
 
 import { ref } from "vue";
-import { Loading, QSpinnerGears, useQuasar } from "quasar";
+import { useQuasar } from "quasar";
 export default {
   name: "form-login",
   setup() {
     const { sendEmailResetPassword } = userAuth();
+    const { notifyError, notifySuccess } = usenotification();
     const $q = useQuasar();
     const form = ref({
       email: "",
@@ -71,28 +73,11 @@ export default {
       try {
         $q.loading.show({ message: "Porfavor aguarde..." });
         await sendEmailResetPassword(form.value);
-        $q.notify({
-          type: "positive",
-          message:
-            "Solicitou uma nova senha, porfavor verifique sua caixa de email",
-        });
+        notifySuccess(
+          "Solicitou uma nova senha, porfavor verifique sua caixa de email"
+        );
       } catch (error) {
-        console.log(error.code);
-        switch (error.code) {
-          case "auth/too-many-requests":
-            $q.notify({
-              type: "negative",
-              message: "Enviou muitas requisições, porfavor tente mais tarde",
-            });
-            break;
-
-          default:
-            $q.notify({
-              type: "negative",
-              message: error.message,
-            });
-            break;
-        }
+        notifyError(error.message);
       } finally {
         $q.loading.hide();
       }

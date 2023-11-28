@@ -64,13 +64,15 @@
 
 <script>
 import userAuth from "../composible/userAuthUser";
+import useNotification from "src/composible/useNotify";
 import { ref } from "vue";
-import { Loading, QSpinnerGears, Notify, useQuasar } from "quasar";
+import { Loading, useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 export default {
   name: "form-login",
   setup() {
     const { login } = userAuth();
+    const { notifyError, notifySuccess } = useNotification();
     const $q = useQuasar();
     const router = useRouter();
     const form = ref({
@@ -84,26 +86,9 @@ export default {
         Loading.show({ message: "Porfavor aguarde..." });
         await login(form.value);
         router.push({ name: "admin" });
-        $q.notify({
-          type: "positive",
-          message: "Autorizado com sucesso",
-        });
+        notifySuccess("Autorizado com sucesso");
       } catch (error) {
-        switch (error.code) {
-          case "auth/invalid-login-credentials":
-            $q.notify({
-              type: "negative",
-              message: "Usuário não autorizado",
-            });
-            break;
-
-          default:
-            $q.notify({
-              type: "negative",
-              message: error.message,
-            });
-            break;
-        }
+        notifyError(error.message);
       } finally {
         Loading.hide();
       }

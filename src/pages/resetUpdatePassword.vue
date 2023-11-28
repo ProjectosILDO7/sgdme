@@ -54,12 +54,14 @@
 <script>
 import userAuth from "../composible/userAuthUser";
 import { ref } from "vue";
-import { Loading, QSpinnerGears, Notify, useQuasar } from "quasar";
+import { Loading, useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
+import usenotification from "src/composible/useNotify";
 export default {
   name: "form-login",
   setup() {
     const { resetPassword } = userAuth();
+    const { notifyError, notifySuccess } = usenotification();
     const $q = useQuasar();
     const router = useRouter();
     const route = useRoute();
@@ -71,15 +73,9 @@ export default {
         Loading.show({ message: "Porfavor aguarde..." });
         await resetPassword(token, password.value);
         router.push({ name: "loginPage" });
-        $q.notify({
-          type: "positive",
-          message: "Senha alterada com sucesso",
-        });
+        notifySuccess("Senha alterada com sucesso");
       } catch (error) {
-        $q.notify({
-          type: "negative",
-          message: "Não foi possível alterar a sua palavra chave.",
-        });
+        notifyError(error.message);
       } finally {
         Loading.hide();
       }

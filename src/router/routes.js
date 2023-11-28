@@ -4,6 +4,26 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", name: "admin", component: () => import("pages/Me.vue") },
+      {
+        path: "categorias",
+        name: "categorias",
+        component: () => import("src/pages/categorias/listPage.vue"),
+      },
+      {
+        path: "form",
+        name: "form-categoria",
+        component: () => import("src/pages/categorias/FormCategoria.vue"),
+      },
+      {
+        path: "escolas",
+        name: "escolas",
+        component: () => import("src/pages/escolas/listPage.vue"),
+      },
+      {
+        path: "funcionarios",
+        name: "funcionarios",
+        component: () => import("pages/funcionarios/listPage.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },

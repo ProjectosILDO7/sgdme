@@ -5,6 +5,7 @@ export default function usenotification() {
 
   const notifySuccess = async (message) => {
     $q.notify({
+      position: "top-right",
       type: "positive",
       message: message || "Tudo certo",
     });
@@ -12,6 +13,7 @@ export default function usenotification() {
 
   const notifyError = async (message) => {
     $q.notify({
+      position: "top-right",
       type: "negative",
       message: message || "Falha na execução",
     });
