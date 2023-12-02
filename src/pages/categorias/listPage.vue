@@ -2,7 +2,7 @@
   <q-layout>
     <q-page-container>
       <q-page padding>
-        <div class="row">
+        <div class="row" v-if="$q.platform.is.desktop">
           <q-table
             :rows="categorias"
             flat
@@ -16,6 +16,7 @@
               <span class="text-h6">Categorias</span>
               <q-space />
               <q-btn
+                v-if="$q.platform.is.desktop"
                 icon="mdi-plus"
                 label="Categorias"
                 color="info"
@@ -25,7 +26,13 @@
             </template>
             <template v-slot:body-cell-actions="props">
               <q-td :props="props" class="q-gutter-x-sm text-center">
-                <q-btn icon="mdi-pencil-outline" color="info" dense size="sm">
+                <q-btn
+                  icon="mdi-pencil-outline"
+                  color="info"
+                  dense
+                  size="sm"
+                  @click="alterarItem(props.row)"
+                >
                   <q-tooltip>Alterar</q-tooltip>
                 </q-btn>
                 <q-btn
@@ -33,12 +40,63 @@
                   color="negative"
                   dense
                   size="sm"
+                  @click="deletarItem(props.row)"
                   ><q-tooltip>Apagar</q-tooltip></q-btn
                 >
               </q-td>
             </template>
           </q-table>
         </div>
+
+        <!-- List for mobile -->
+        <q-list bordered v-if="$q.platform.is.mobile">
+          <div
+            class="row text-body3 text-h5 flex-center q-pa-lg bg-secondary text-white"
+          >
+            <q-btn flat icon="mdi-shape-outline" label="Categorias" />
+          </div>
+          <q-item
+            v-for="categoria in categorias"
+            :key="categoria.id"
+            class="q-mb-sm"
+            clickable
+            v-ripple
+            @click="alterarItem(categoria)"
+          >
+            <q-item-section avatar>
+              <q-avatar color="primary" text-color="white" icon="mdi-shape" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>{{ categoria.categoria }}</q-item-label>
+              <q-item-label caption lines="1"
+                >Salário líquido:
+                <strong class="secondary">{{
+                  categoria.salario_liquido
+                }}</strong>
+              </q-item-label>
+              <q-item-label caption lines="2"
+                >Salário Base:
+                <strong class="secondary">{{ categoria.salario_base }}</strong>
+              </q-item-label>
+            </q-item-section>
+            <q-separator />
+          </q-item>
+        </q-list>
+
+        <q-page-sticky
+          class="margin-bottom"
+          position="bottom-right"
+          :offset="[18, 18]"
+          v-if="$q.platform.is.mobile"
+        >
+          <q-btn
+            fab
+            icon="mdi-plus"
+            color="primary"
+            :to="{ name: 'form-categoria' }"
+          />
+        </q-page-sticky>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -46,55 +104,53 @@
 <script>
 import { defineComponent } from "vue";
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import userApi from "src/composible/userApi";
 import usenotification from "src/composible/useNotify";
-import { Loading } from "quasar";
-export default {
+import { Loading, useQuasar } from "quasar";
+import { columns } from "./table";
+export default defineComponent({
   setup() {
     const categorias = ref([]);
-    const { list } = userApi();
+    const { list, remove } = userApi();
+    const router = useRouter();
+    const $q = useQuasar();
+    const table = "categorias";
     const { notifyError, notifySuccess } = usenotification();
-    const columns = [
-      {
-        name: "categoria",
-        label: "Nome de categoria",
-        align: "left",
-        field: "categoria",
-        sortable: true,
-      },
-      {
-        name: "salario_base",
-        label: "Salario Base",
-        right: "left",
-        field: "salario_base",
-        sortable: true,
-      },
-      {
-        name: "salario_liquido",
-        label: "Salario Líquido",
-        right: "left",
-        field: "salario_liquido",
-        sortable: true,
-      },
-      {
-        name: "actions",
-        label: "Opções",
-        right: "left",
-        field: "actions",
-        sortable: true,
-      },
-    ];
 
     const listarCategorias = async () => {
       Loading.show({ message: "Carregado categorias" });
       try {
-        categorias.value = await list("categorias");
-        console.log(categorias.value);
+        categorias.value = await list(table);
       } catch (error) {
         notifyError(error.message);
       } finally {
         Loading.hide();
       }
+    };
+
+    const deletarItem = async (item) => {
+      try {
+        $q.dialog({
+          title: "Confirmação",
+          message: `tens a certeza que pretendes eliminar a categoria ${item.categoria} ?`,
+          cancel: true,
+          persistent: true,
+        }).onOk(async () => {
+          Loading.show({ message: "Apagando categoria..." });
+          await remove(table, item.id);
+          listarCategorias();
+          notifySuccess("categoria apagada com sucesso");
+        });
+      } catch (error) {
+        notifyError(error.message);
+      } finally {
+        Loading.hide();
+      }
+    };
+
+    const alterarItem = (item) => {
+      router.push({ name: "form-categoria", params: { id: item.id } });
     };
 
     onMounted(() => {
@@ -103,8 +159,15 @@ export default {
 
     return {
       columns,
+      alterarItem,
+      deletarItem,
       categorias,
     };
   },
-};
+});
 </script>
+<style lang="css" scoped>
+.margin-bottom {
+  margin-bottom: 80px !important;
+}
+</style>

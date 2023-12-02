@@ -10,9 +10,19 @@ const routes = [
         component: () => import("src/pages/categorias/listPage.vue"),
       },
       {
-        path: "form",
+        path: "form/:id?",
         name: "form-categoria",
         component: () => import("src/pages/categorias/FormCategoria.vue"),
+      },
+      {
+        path: "form/:id?",
+        name: "form-escola",
+        component: () => import("src/pages/escolas/FormItem.vue"),
+      },
+      {
+        path: "form/:id?",
+        name: "form-funcionario",
+        component: () => import("src/pages/funcionarios/FormItem.vue"),
       },
       {
         path: "escolas",
@@ -23,6 +33,11 @@ const routes = [
         path: "funcionarios",
         name: "funcionarios",
         component: () => import("pages/funcionarios/listPage.vue"),
+      },
+      {
+        path: "services",
+        name: "services-page",
+        component: () => import("pages/servicos/servicesPage.vue"),
       },
     ],
     meta: { requiresAuth: true },

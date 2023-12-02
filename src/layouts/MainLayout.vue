@@ -1,6 +1,21 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <!-- Header for mobile -->
+    <q-header bordered class="bg-primary-3 text-white">
+      <q-toolbar>
+        <q-toolbar-title class="text-center">
+          <q-avatar
+            color="white"
+            text-color="brown-5"
+            icon="mdi-school-outline"
+          />
+          D.M.E
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <!-- Header for Desktop -->
+    <q-header elevated v-if="$q.platform.is.desktop">
       <q-toolbar>
         <q-btn
           flat
@@ -11,9 +26,9 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> DME </q-toolbar-title>
+        <q-toolbar-title> D.M.E </q-toolbar-title>
 
-        <q-btn flat icon="person" v-if="user">
+        <q-btn flat icon="person" v-if="user && $q.platform.is.desktop">
           Ola {{ user.user_metadata.name }}</q-btn
         >
         <q-btn color="deep-white" icon="logout" round flat @click="logoutPage">
@@ -36,6 +51,38 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <!-- Footer com tabs para os mobile -->
+    <q-footer
+      bordered
+      class="bg-grey-3 text-primary"
+      v-if="$q.platform.is.mobile"
+    >
+      <q-tabs
+        no-caps
+        active-color="primary"
+        indicator-color="transparent"
+        class="text-primary-8"
+        v-model="tab"
+        narrow-indicator
+        align="justify"
+        dense
+      >
+        <q-route-tab
+          name="home"
+          label="Home"
+          icon="mdi-home"
+          :to="{ name: 'admin' }"
+        />
+
+        <q-route-tab
+          name="services"
+          label="serviços"
+          icon="mdi-widgets"
+          :to="{ name: 'services-page' }"
+        />
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -59,18 +106,17 @@ const linksList = [
     icon: "mdi-shape",
     routeName: "categorias",
   },
-
-  {
-    title: "Funcionários",
-    caption: "dados de funcionários",
-    icon: "mdi-account-tie",
-    routeName: "funcionarios",
-  },
   {
     title: "Escolas",
     caption: "nformações gerais de escolas",
     icon: "mdi-school",
     routeName: "escolas",
+  },
+  {
+    title: "Funcionários",
+    caption: "dados de funcionários",
+    icon: "mdi-account-tie",
+    routeName: "funcionarios",
   },
 ];
 
@@ -85,6 +131,7 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const { logout, user } = userAuthUser();
     const $q = useQuasar();
+    const tab = ref("home");
     const router = useRouter();
 
     const logoutPage = async () => {
@@ -110,6 +157,7 @@ export default defineComponent({
       logout,
       logoutPage,
       user,
+      tab,
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {

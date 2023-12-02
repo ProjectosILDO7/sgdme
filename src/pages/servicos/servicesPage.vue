@@ -1,0 +1,70 @@
+<template>
+  <q-layout>
+    <q-page-container>
+      <q-page class="flex flex-center">
+        <div class="q-pa-lg">
+          <div class="column p-gutter text-center" style="height: 150px">
+            <div class="col-6 col-sm-6 q-pa-sm">
+              <q-btn
+                class="q-pa-sm"
+                color="secondary"
+                icon="mdi-shape-plus"
+                label="Categorias"
+                stack
+                glossy
+                :to="{ name: 'categorias' }"
+              ></q-btn>
+            </div>
+            <div class="col-6 col-sm-6 q-pa-sm">
+              <q-btn
+                color="secondary"
+                class="q-pa-sm text-center"
+                icon="mdi-school-outline"
+                label="Escola Info"
+                stack
+                glossy
+                :to="{ name: 'escolas' }"
+              ></q-btn>
+            </div>
+
+            <div class="col-6 col-sm-6 q-pa-sm">
+              <q-btn
+                color="secondary"
+                class="q-pa-sm"
+                icon="mdi-account-tie"
+                label="Funcionário"
+                stack
+                glossy
+                :to="{ name: 'funcionarios' }"
+              ></q-btn>
+            </div>
+            <div class="col-6 col-sm-6 q-pa-sm">
+              <q-btn
+                color="secondary"
+                label="Secretaria G."
+                class="q-pa-sm text-center"
+                icon="mdi-book-open-page-variant"
+                stack
+                glossy
+              ></q-btn>
+            </div>
+          </div>
+        </div>
+      </q-page>
+    </q-page-container>
+  </q-layout>
+</template>
+<script>
+export default {};
+</script>
+<style lang="sass">
+.example-column-row-wrapping
+  .column
+    background: rgba(#aa0, .1)
+  .column > div
+    padding: 10px 15px
+    background: rgba(#999, .15)
+    border: 1px solid rgba(#999, .2)
+  .column + .column
+    margin-top: 1rem
+</style>
