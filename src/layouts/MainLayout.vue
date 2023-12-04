@@ -77,9 +77,16 @@
 
         <q-route-tab
           name="services"
+          label="Cadastros"
+          icon="mdi-database-cog-outline"
+          :to="{ name: 'services-page' }"
+        />
+
+        <q-route-tab
+          name="services"
           label="serviços"
           icon="mdi-widgets"
-          :to="{ name: 'services-page' }"
+          :to="{ name: 'page-service' }"
         />
       </q-tabs>
     </q-footer>
@@ -117,6 +124,12 @@ const linksList = [
     caption: "dados de funcionários",
     icon: "mdi-account-tie",
     routeName: "funcionarios",
+  },
+  {
+    title: "Serviços",
+    caption: "Serviços gerais",
+    icon: "mdi-cog",
+    routeName: "page-service",
   },
 ];
 

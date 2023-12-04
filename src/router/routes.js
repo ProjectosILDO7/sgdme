@@ -39,6 +39,11 @@ const routes = [
         name: "services-page",
         component: () => import("pages/servicos/servicesPage.vue"),
       },
+      {
+        path: "services-geral",
+        name: "page-service",
+        component: () => import("pages/servicos/servicesGeral.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },

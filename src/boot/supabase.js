@@ -9,8 +9,9 @@ const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 supabase.auth.onAuthStateChange((event, session) => {
-  const { user } = userAuthUser();
+  const { user, token } = userAuthUser();
   user.value = session?.user;
+  token.value = session.access_token;
 });
 
 export default function useSupabase() {

@@ -2,12 +2,21 @@ import { ref } from "vue";
 import useSupabase from "boot/supabase";
 
 const user = ref(null);
+const token = ref(null);
 
 export default function userAuthUser() {
   const { supabase } = useSupabase();
 
   const isLoggidIn = async () => {
     return !!user.value;
+  };
+
+  const getToken = async () => {
+    const { data, error } = supabase.auth.getSession();
+    if (error) throw error;
+    console.log(data);
+    token.value = data;
+    return data;
   };
 
   const getUser = async () => {
@@ -82,5 +91,7 @@ export default function userAuthUser() {
     sendEmailResetPassword,
     loginWithSocialProvider,
     updateUser,
+    token,
+    getToken,
   };
 }

@@ -2,7 +2,7 @@
   <q-layout>
     <q-page-container>
       <q-page padding>
-        <div class="row" v-if="$q.platform.is.desktop">
+        <div class="row" v-if="$q.platform.is.desktop && escolas != null">
           <q-table
             :rows="escolas"
             flat
@@ -48,8 +48,17 @@
           </q-table>
         </div>
 
+        <div
+          class="flex flex-center text-body1 text-center"
+          v-if="$q.platform.is.desktop && escolas == null"
+        >
+          <q-btn flat color="red">
+            De momento não tens nenhuma escola cadastrada
+          </q-btn>
+        </div>
+
         <!-- List for mobile -->
-        <q-list bordered v-if="$q.platform.is.mobile && escolas != ''">
+        <q-list bordered v-if="$q.platform.is.mobile && escolas != null">
           <div
             class="row text-body3 text-h5 flex-center q-pa-lg bg-secondary text-white"
           >
@@ -87,7 +96,10 @@
           </q-item>
         </q-list>
 
-        <div v-else class="flex flex-center text-body1 text-center">
+        <div
+          class="flex flex-center text-body1 text-center"
+          v-if="$q.platform.is.mobile && escolas == null"
+        >
           <q-btn flat color="red">
             De momento não tens nenhuma escola cadastrada
           </q-btn>

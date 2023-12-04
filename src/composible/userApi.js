@@ -1,8 +1,10 @@
 import userAuthUser from "./userAuthUser";
 import userSupabase from "boot/supabase";
+import { v4 as uuid } from "uuid";
 
 export default function userApi() {
   const { user } = userAuthUser();
+  const fileName = uuid();
   const { supabase } = userSupabase();
 
   const list = async (table) => {
@@ -38,11 +40,37 @@ export default function userApi() {
     return data;
   };
 
+  // Ûploud de Imagens
+  const uploadImage = async (file, storage) => {
+    const { data, error } = await supabase.storage
+      .from(storage)
+      .upload(fileName, file, {
+        cacheControl: 3600,
+        upsert: false,
+      });
+
+    const publicURL = await getImagUrl(fileName, storage);
+    if (error) throw error;
+    return publicURL;
+  };
+
+  // Pega a Url da Imagem
+  const getImagUrl = async (fileName, storage) => {
+    const { data, error } = await supabase.storage
+      .from(storage)
+      .getPublicUrl(fileName);
+    if (error) throw error;
+    console.log(data.publicUrl);
+    return data.publicUrl;
+  };
+
   return {
     list,
     getById,
     post,
+    uploadImage,
     update,
     remove,
+    fileName,
   };
 }

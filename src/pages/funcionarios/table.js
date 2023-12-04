@@ -1,5 +1,12 @@
 const columns = [
   {
+    name: "img_url",
+    label: "Imagem",
+    align: "left",
+    field: "img_url",
+    sortable: true,
+  },
+  {
     name: "nome",
     label: "Nome completo",
     align: "left",

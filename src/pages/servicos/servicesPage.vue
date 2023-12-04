@@ -4,7 +4,7 @@
       <q-page class="flex flex-center">
         <div class="q-pa-lg">
           <div class="column p-gutter text-center" style="height: 150px">
-            <div class="col-6 col-sm-6 q-pa-sm">
+            <div class="col-6 col-sm-6 q-pa-sm q-gutter-sm">
               <q-btn
                 class="q-pa-sm"
                 color="secondary"
@@ -14,8 +14,6 @@
                 glossy
                 :to="{ name: 'categorias' }"
               ></q-btn>
-            </div>
-            <div class="col-6 col-sm-6 q-pa-sm">
               <q-btn
                 color="secondary"
                 class="q-pa-sm text-center"
@@ -25,9 +23,7 @@
                 glossy
                 :to="{ name: 'escolas' }"
               ></q-btn>
-            </div>
 
-            <div class="col-6 col-sm-6 q-pa-sm">
               <q-btn
                 color="secondary"
                 class="q-pa-sm"
@@ -36,16 +32,6 @@
                 stack
                 glossy
                 :to="{ name: 'funcionarios' }"
-              ></q-btn>
-            </div>
-            <div class="col-6 col-sm-6 q-pa-sm">
-              <q-btn
-                color="secondary"
-                label="Secretaria G."
-                class="q-pa-sm text-center"
-                icon="mdi-book-open-page-variant"
-                stack
-                glossy
               ></q-btn>
             </div>
           </div>

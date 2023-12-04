@@ -24,8 +24,31 @@
                 :to="{ name: 'form-funcionario' }"
               />
             </template>
+            <template v-slot:body-cell-img_url="props">
+              <q-td :props="props" class="text-center">
+                <q-avatar v-if="props.row.img_url">
+                  <img :src="props.row.img_url" />
+                </q-avatar>
+                <q-avatar
+                  v-else
+                  color="secondary"
+                  text-color="white"
+                  icon="mdi-image-off"
+                  class="flex-center"
+                />
+              </q-td>
+            </template>
             <template v-slot:body-cell-actions="props">
               <q-td :props="props" class="q-gutter-x-sm text-center">
+                <!-- <q-btn
+                  icon="mdi-eye-outline"
+                  color="grey"
+                  dense
+                  size="sm"
+                  @click="detalhes(props.row)"
+                >
+                  <q-tooltip>Ver detalhes</q-tooltip>
+                </q-btn> -->
                 <q-btn
                   icon="mdi-pencil-outline"
                   color="info"
@@ -65,7 +88,15 @@
             @click="alterarItem(funcionario)"
           >
             <q-item-section avatar>
-              <q-avatar color="red" text-color="white" icon="mdi-account-tie" />
+              <q-avatar v-if="funcionario.img_url">
+                <img :src="funcionario.img_url" />
+              </q-avatar>
+              <q-avatar
+                v-else
+                color="grey"
+                text-color="white"
+                icon="mdi-image-off"
+              />
             </q-item-section>
 
             <q-item-section>
@@ -95,6 +126,38 @@
             :to="{ name: 'form-funcionario' }"
           />
         </q-page-sticky>
+
+        <!-- Mais detalhes -->
+        <q-dialog v-model="card">
+          <q-card class="my-card">
+            <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
+            <q-card-section>
+              <div class="row no-wrap items-center">
+                <div class="col text-h6 ellipsis">Cafe Basilico</div>
+                <div
+                  class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+                >
+                  250 ft
+                </div>
+              </div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              <div class="text-subtitle1">$・Italian, Cafe</div>
+              <div class="text-caption text-grey">
+                {{ itensDetails }}
+              </div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat color="primary" round label="Ok" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- fim dialog -->
       </q-page>
     </q-page-container>
   </q-layout>
@@ -105,14 +168,21 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import userApi from "src/composible/userApi";
 import usenotification from "src/composible/useNotify";
+import userAuth from "src/composible/userAuthUser";
 import { Loading, useQuasar } from "quasar";
 import { columns } from "./table";
+import detalhesComponent from "src/components/detalhesComponent.vue";
 export default defineComponent({
+  components: [detalhesComponent],
   setup() {
     const funcionarios = ref([]);
+    const itensDetails = ref("");
     const { list, remove } = userApi();
+    const token = userAuth();
     const router = useRouter();
+    const storage = "sgdme";
     const $q = useQuasar();
+    const card = ref(false);
     const table = "funcionarios";
     const { notifyError, notifySuccess } = usenotification();
 
@@ -125,6 +195,11 @@ export default defineComponent({
       } finally {
         Loading.hide();
       }
+    };
+
+    const detalhes = (items) => {
+      itensDetails.value = items;
+      card.value = true;
     };
 
     const deletarItem = async (item) => {
@@ -160,6 +235,11 @@ export default defineComponent({
       alterarItem,
       deletarItem,
       funcionarios,
+      storage,
+      token,
+      detalhes,
+      card,
+      itensDetails,
     };
   },
 });

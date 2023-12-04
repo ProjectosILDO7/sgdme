@@ -72,12 +72,14 @@
               <q-item-label caption lines="1"
                 >Salário líquido:
                 <strong class="secondary">{{
-                  categoria.salario_liquido
+                  formatCurrency(categoria.salario_liquido)
                 }}</strong>
               </q-item-label>
               <q-item-label caption lines="2"
                 >Salário Base:
-                <strong class="secondary">{{ categoria.salario_base }}</strong>
+                <strong class="secondary">{{
+                  formatCurrency(categoria.salario_base)
+                }}</strong>
               </q-item-label>
             </q-item-section>
             <q-separator />
@@ -109,6 +111,7 @@ import userApi from "src/composible/userApi";
 import usenotification from "src/composible/useNotify";
 import { Loading, useQuasar } from "quasar";
 import { columns } from "./table";
+import { formatCurrency } from "src/utils/formatCurrency";
 export default defineComponent({
   setup() {
     const categorias = ref([]);
@@ -160,6 +163,7 @@ export default defineComponent({
     return {
       columns,
       alterarItem,
+      formatCurrency,
       deletarItem,
       categorias,
     };

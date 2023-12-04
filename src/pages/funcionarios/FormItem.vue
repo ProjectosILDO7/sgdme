@@ -12,6 +12,26 @@
           </p>
           <div class="col-md-6 col-sm-6 col-xs-10 q-gutter-y-sm">
             <q-input
+              label="Carregue uma foto do tipo passe"
+              stack-label=""
+              v-model="image"
+              multiple
+              filled
+              type="file"
+              accept="image/*"
+            />
+            <!-- <div class="col-12 q-ma-md flex flex-center">
+              <q-uploader
+                style="max-width: 300px"
+                label="Adicione uma imagen"
+                accept=".jpg, image/*"
+                v-model="image"
+                multiple
+                filled
+              />
+            </div>-->
+
+            <q-input
               v-model="form.nome"
               label="Nome completo"
               class="col-12"
@@ -223,13 +243,16 @@ import { useRouter, useRoute } from "vue-router";
 export default {
   name: "form-categoria",
   setup() {
-    const { post, getById, update, list, remove } = userApi();
+    const { post, getById, update, list, remove, uploadImage, fileName } =
+      userApi();
+
     const { notifyError, notifySuccess } = usenotification();
     const table = "funcionarios";
     const router = useRouter();
     const route = useRoute();
     const $q = useQuasar();
     const categorias = ref([]);
+    const image = ref([]);
     const form = ref({
       nome: "",
       nome_pai: "",
@@ -247,6 +270,8 @@ export default {
       habilitacao: "",
       area_formacao: "",
       instituto_formacao: "",
+      img_url: "",
+      file_name: "",
     });
 
     const isUpdate = computed(() => {
@@ -296,6 +321,12 @@ export default {
 
     const addItems = async () => {
       try {
+        if (image.value.length > 0) {
+          await uploadImage(image.value[0], "sgdme").then((imgUrl) => {
+            form.value.img_url = imgUrl;
+            form.value.file_name = fileName;
+          });
+        }
         if (isUpdate.value) {
           Loading.show({ message: "Actualização em processamento" });
           await update(table, form.value);
@@ -317,6 +348,7 @@ export default {
       form,
       isUpdate,
       table,
+      image,
       deletarItem,
       addItems,
       categorias,

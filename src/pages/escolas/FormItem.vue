@@ -155,7 +155,7 @@ import { useRouter, useRoute } from "vue-router";
 export default {
   name: "form-categoria",
   setup() {
-    const { post, getById, update, remove } = userApi();
+    const { post, getById, update, remove, uploadImage } = userApi();
     const { notifyError, notifySuccess } = usenotification();
     const table = "escolas";
     const router = useRouter();

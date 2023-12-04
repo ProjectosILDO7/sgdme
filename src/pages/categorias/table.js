@@ -21,7 +21,7 @@ const columns = [
     right: "left",
     field: "salario_liquido",
     sortable: true,
-    //format: (val, row) => formatCurrency(row),
+    format: (val) => formatCurrency(val),
   },
   {
     name: "actions",
