@@ -44,6 +44,31 @@ const routes = [
         name: "page-service",
         component: () => import("pages/servicos/servicesGeral.vue"),
       },
+      {
+        path: "secCTI",
+        name: "ctiPage",
+        component: () => import("pages/servicos/cti/pageCTI.vue"),
+      },
+      {
+        path: "secPERH",
+        name: "perh",
+        component: () => import("pages/servicos/perh/pagePERH.vue"),
+      },
+      {
+        path: "secEdEnsino",
+        name: "edEnsino",
+        component: () => import("pages/servicos/edEnsino/pageEdEnsino.vue"),
+      },
+      {
+        path: "secInspecao",
+        name: "inspencao",
+        component: () => import("pages/servicos/inspencao/pageInspecao.vue"),
+      },
+      {
+        path: "areaDoPlano",
+        name: "pagePlano",
+        component: () => import("pages/servicos/perh/plano/pagePlano.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },

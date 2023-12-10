@@ -1,58 +1,52 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="show">
-      <q-card class="my-card">
-        <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
-        {{ card }}
-        <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="place"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%)"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">Cafe Basilico</div>
-            <div
-              class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
-            >
-              <q-icon name="place" />
-              250 ft
-            </div>
-          </div>
-
-          <q-rating v-model="stars" :max="5" size="32px" />
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">$・Italian, Cafe</div>
-          <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
-          </div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Reserve" />
-          <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+  <q-dialog
+    :full-width="$q.platform.mobile"
+    :model-value="show"
+    @click="handClose"
+  >
+    <q-card>
+      <q-card-section> Imagen </q-card-section>
+      <q-card-section> Nome </q-card-section>
+      <q-card-section> Conteudo </q-card-section>
+      <q-card-actions>
+        <q-btn
+          label="cancelar"
+          color="secondary"
+          icon="mdi-close"
+          v-close-popup
+        />
+        <q-btn label="Ok" color="positive" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
-
 <script>
+import { useQuasar } from "quasar";
 import { ref } from "vue";
-
 export default {
+  name: "modalDetail",
   props: {
-    card: Boolean,
+    itens: {
+      type: Object,
+    },
+    show: {
+      type: Boolean,
+      required: true,
+    },
   },
-  setup() {
-    const show = ref(true);
+  setup(props, { emit }) {
+    const funcionarios = ref([]);
+    const $q = useQuasar();
+
+    const handClose = () => {
+      emit("closeModal");
+    };
+
+    return {
+      handClose,
+      $q,
+      funcionarios,
+    };
   },
 };
 </script>

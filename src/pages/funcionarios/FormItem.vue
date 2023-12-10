@@ -162,6 +162,15 @@
               emit-value
               label="Selecione uma categoria"
             />
+            <q-select
+              v-model="form.escola_id"
+              :options="escolas"
+              option-value="id"
+              option-label="nome"
+              map-options
+              emit-value
+              label="Selecione a escola a que pertence"
+            />
             <q-input
               v-model="form.habilitacao"
               label="Habilitação"
@@ -252,6 +261,7 @@ export default {
     const route = useRoute();
     const $q = useQuasar();
     const categorias = ref([]);
+    const escolas = ref([]);
     const image = ref([]);
     const form = ref({
       nome: "",
@@ -267,6 +277,7 @@ export default {
       comuna: "",
       localidade: "",
       categoria_id: "",
+      escola_id: "",
       habilitacao: "",
       area_formacao: "",
       instituto_formacao: "",
@@ -280,6 +291,10 @@ export default {
 
     const listarCategorias = async () => {
       categorias.value = await list("categorias");
+    };
+
+    const listarEscolas = async () => {
+      escolas.value = await list("escolas");
     };
 
     const deletarItem = async (item) => {
@@ -303,6 +318,7 @@ export default {
     };
     onMounted(() => {
       listarCategorias();
+      listarEscolas();
       if (isUpdate.value) {
         getItem(table, isUpdate.value);
       }
@@ -352,6 +368,7 @@ export default {
       deletarItem,
       addItems,
       categorias,
+      escolas,
     };
   },
 };

@@ -40,7 +40,7 @@
             </template>
             <template v-slot:body-cell-actions="props">
               <q-td :props="props" class="q-gutter-x-sm text-center">
-                <!-- <q-btn
+                <q-btn
                   icon="mdi-eye-outline"
                   color="grey"
                   dense
@@ -48,7 +48,7 @@
                   @click="detalhes(props.row)"
                 >
                   <q-tooltip>Ver detalhes</q-tooltip>
-                </q-btn> -->
+                </q-btn>
                 <q-btn
                   icon="mdi-pencil-outline"
                   color="info"
@@ -113,6 +113,7 @@
             <q-separator />
           </q-item>
         </q-list>
+
         <q-page-sticky
           class="margin-bottom"
           position="bottom-right"
@@ -128,35 +129,7 @@
         </q-page-sticky>
 
         <!-- Mais detalhes -->
-        <q-dialog v-model="card">
-          <q-card class="my-card">
-            <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
-            <q-card-section>
-              <div class="row no-wrap items-center">
-                <div class="col text-h6 ellipsis">Cafe Basilico</div>
-                <div
-                  class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
-                >
-                  250 ft
-                </div>
-              </div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-subtitle1">$・Italian, Cafe</div>
-              <div class="text-caption text-grey">
-                {{ itensDetails }}
-              </div>
-            </q-card-section>
-
-            <q-separator />
-
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat color="primary" round label="Ok" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-
+        <detalhes-component :show="handleShowDetail" :itens="itens" />
         <!-- fim dialog -->
       </q-page>
     </q-page-container>
@@ -173,7 +146,7 @@ import { Loading, useQuasar } from "quasar";
 import { columns } from "./table";
 import detalhesComponent from "src/components/detalhesComponent.vue";
 export default defineComponent({
-  components: [detalhesComponent],
+  components: { detalhesComponent },
   setup() {
     const funcionarios = ref([]);
     const itensDetails = ref("");
@@ -181,7 +154,9 @@ export default defineComponent({
     const token = userAuth();
     const router = useRouter();
     const storage = "sgdme";
+    const handleShowDetail = ref(false);
     const $q = useQuasar();
+    const itens = ref([]);
     const card = ref(false);
     const table = "funcionarios";
     const { notifyError, notifySuccess } = usenotification();
@@ -197,9 +172,9 @@ export default defineComponent({
       }
     };
 
-    const detalhes = (items) => {
-      itensDetails.value = items;
-      card.value = true;
+    const detalhes = (data) => {
+      itens.value = data;
+      handleShowDetail.value = true;
     };
 
     const deletarItem = async (item) => {
@@ -240,6 +215,8 @@ export default defineComponent({
       detalhes,
       card,
       itensDetails,
+      itens,
+      handleShowDetail,
     };
   },
 });

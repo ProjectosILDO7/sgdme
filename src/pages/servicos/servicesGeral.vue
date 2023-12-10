@@ -12,6 +12,7 @@
             glossy
             color="purple"
             class="q-pa-lg"
+            :to="{ name: 'perh' }"
           />
           <q-btn
             icon="mdi-school-outline"
@@ -20,6 +21,7 @@
             glossy
             color="purple"
             class="q-pa-lg"
+            :to="{ name: 'edEnsino' }"
           />
           <q-btn
             icon="mdi-scale-balance"
@@ -28,6 +30,7 @@
             glossy
             color="purple"
             class="q-pa-lg"
+            :to="{ name: 'inspencao' }"
           />
           <q-btn
             icon="mdi-laptop"
@@ -36,6 +39,7 @@
             glossy
             color="purple"
             class="q-pa-lg"
+            :to="{ name: 'ctiPage' }"
           />
         </div>
       </q-page>
@@ -43,6 +47,8 @@
   </q-layout>
 </template>
 <script>
-export default {};
+export default {
+  setup() {},
+};
 </script>
 <style lang="css"></style>
