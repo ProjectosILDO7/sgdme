@@ -4,7 +4,21 @@
       <q-page padding>
         <div class="q-gutter-x-md">
           <topo-name-page-vue :titulo="titulo" />
-          <btn-back-page-vue />
+          <div class="row">
+            <div class="col-6">
+              <btn-back-page-vue />
+            </div>
+            <q-space />
+            <q-btn
+              flat
+              dense
+              size="sm"
+              icon="mdi-eye-outline"
+              color="primary"
+              label="ver orçamentos"
+              @click="see_orcamentos"
+            />
+          </div>
         </div>
         <q-separator />
 
@@ -17,12 +31,14 @@
               label="Nome do projecto"
               v-model="form.project_name"
               :rules="[(val) => !!val || 'Porfavor informe o nome do projecto']"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               type="text"
               label="Area de actuação"
               v-model="form.area_actuacao"
               :rules="[(val) => !!val || 'Porfavor informe a área de actuação']"
+              v-bind="{ ...inputConfig }"
             />
 
             <div class="q-gutter-md q-mt-md flex flex-center">
@@ -35,6 +51,7 @@
                   :rules="[
                     (val) => !!val || 'Porfavor informe a data de início',
                   ]"
+                  minimal
                 />
               </div>
 
@@ -48,6 +65,7 @@
                     (val) =>
                       !!val || 'Porfavor informe a data do fim do programa',
                   ]"
+                  minimal
                 />
               </div>
             </div>
@@ -161,6 +179,7 @@
               :rules="[
                 (val) => !!val || 'Porfavor informe o custo do projecto',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <div class="q-pa-md q-gutter-sm">
@@ -170,6 +189,7 @@
                 class="q-mt-sm full-width"
                 color="secondary"
                 type="submit"
+                v-bind="{ ...btnConfig }"
               />
             </div>
           </q-form>
@@ -181,11 +201,13 @@
 
 <script>
 import btnBackPageVue from "src/components/btnBack/btnBackPage.vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import topoNamePageVue from "src/components/topoNamePage/topoNamePage.vue";
 import useNotification from "src/composible/useNotify";
 import useApi from "src/composible/userApi";
 import { Loading } from "quasar";
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "page-plano",
@@ -193,21 +215,22 @@ export default defineComponent({
   setup() {
     const table = "orcamento_project";
     const date = new Date();
-
+    const router = useRouter();
     const titulo = "Área do plano";
     const { notifyError, notifySuccess } = useNotification();
     const { post } = useApi();
     const form = ref({
       project_name: "",
       area_actuacao: "",
-      data_inicio:
-        date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate(),
-      data_fim:
-        date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate(),
+      data_inicio: "",
+      data_fim: "",
       descricao: "",
       custo: "",
     });
 
+    const see_orcamentos = () => {
+      router.push({ name: "orcamentos" });
+    };
     const addOrcamento = async () => {
       try {
         Loading.show({ message: "Criar orçamento" });
@@ -220,11 +243,25 @@ export default defineComponent({
       }
     };
 
+    onMounted(() => {
+      const dia = date.getDate();
+      const mes = date.getMonth();
+      const ano = date.getFullYear();
+
+      form.value.data_inicio = ano + "/" + mes + "/" + dia;
+      form.value.data_fim = ano + "/" + mes + "/" + dia;
+
+      console.log(form.value);
+    });
+
     return {
       addOrcamento,
       titulo,
       table,
+      btnConfig,
+      inputConfig,
       form,
+      see_orcamentos,
     };
   },
 });

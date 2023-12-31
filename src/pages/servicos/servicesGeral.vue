@@ -8,36 +8,28 @@
           <q-btn
             icon="mdi-account-group"
             label="P . E . R . H"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             class="q-pa-lg"
             :to="{ name: 'perh' }"
           />
           <q-btn
             icon="mdi-school-outline"
             label="Ed. Ensino"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             class="q-pa-lg"
             :to="{ name: 'edEnsino' }"
           />
           <q-btn
             icon="mdi-scale-balance"
             label="S.INSPENS."
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             class="q-pa-lg"
             :to="{ name: 'inspencao' }"
           />
           <q-btn
             icon="mdi-laptop"
             label="S . C . T . I"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             class="q-pa-lg"
             :to="{ name: 'ctiPage' }"
           />
@@ -47,8 +39,14 @@
   </q-layout>
 </template>
 <script>
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
 export default {
-  setup() {},
+  setup() {
+    return {
+      btnConfig,
+      inputConfig,
+    };
+  },
 };
 </script>
 <style lang="css"></style>

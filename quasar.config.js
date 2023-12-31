@@ -94,6 +94,7 @@ module.exports = configure(function (/* ctx */) {
     framework: {
       plugins: ["Loading", "Notify", "Dialog", "format", "LocalStorage"],
       config: {},
+      lang: "pt-BR",
     },
 
     // animations: 'all', // --- includes all animations

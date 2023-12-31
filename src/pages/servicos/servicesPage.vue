@@ -7,30 +7,24 @@
             <div class="col-6 col-sm-6 q-pa-sm q-gutter-sm">
               <q-btn
                 class="q-pa-sm"
-                color="secondary"
                 icon="mdi-shape-plus"
                 label="Categorias"
-                stack
-                glossy
+                v-bind="{ ...btnConfig }"
                 :to="{ name: 'categorias' }"
               ></q-btn>
               <q-btn
-                color="secondary"
                 class="q-pa-sm text-center"
                 icon="mdi-school-outline"
                 label="Escola Info"
-                stack
-                glossy
+                v-bind="{ ...btnConfig }"
                 :to="{ name: 'escolas' }"
               ></q-btn>
 
               <q-btn
-                color="secondary"
                 class="q-pa-sm"
                 icon="mdi-account-tie"
                 label="Funcionário"
-                stack
-                glossy
+                v-bind="{ ...btnConfig }"
                 :to="{ name: 'funcionarios' }"
               ></q-btn>
             </div>
@@ -41,7 +35,15 @@
   </q-layout>
 </template>
 <script>
-export default {};
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
+export default {
+  setup() {
+    return {
+      btnConfig,
+      inputConfig,
+    };
+  },
+};
 </script>
 <style lang="sass">
 .example-column-row-wrapping

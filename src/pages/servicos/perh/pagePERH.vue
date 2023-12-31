@@ -10,38 +10,28 @@
         <div class="row q-gutter-sm q-pa-md flex-center">
           <q-btn
             icon="mdi-view-grid-outline"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             label="Área do Plano"
             :to="{ name: 'pagePlano' }"
           />
           <q-btn
             icon="mdi-finance"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             label="Área de Estatística"
           />
           <q-btn
             icon="mdi-account-group"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             label="Área de Recursos Humanos"
           />
           <q-btn
             icon="mdi-file-document-edit-outline"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             label="Secretaria Geral"
           />
           <q-btn
             icon="mdi-inbox-full"
-            stack
-            glossy
-            color="purple"
+            v-bind="{ ...btnConfig }"
             label="Áres de património"
           />
         </div>
@@ -54,6 +44,7 @@
 import btnBackPageVue from "src/components/btnBack/btnBackPage.vue";
 import { defineComponent } from "vue";
 import topoNamePageVue from "src/components/topoNamePage/topoNamePage.vue";
+import { btnConfig } from "src/utils/inputVisual";
 
 export default defineComponent({
   name: "Page-Recursos-Humanos",
@@ -67,6 +58,7 @@ export default defineComponent({
     return {
       backPage,
       titulo,
+      btnConfig,
     };
   },
 });
