@@ -11,18 +11,41 @@
             row-key="id"
             class="col-12"
             virtual-scroll
+            :filter="filter"
           >
             <template v-slot:top>
-              <span class="text-h6">Escolas</span>
+              <q-input
+                class=""
+                type="text"
+                label="Pesquisar"
+                v-bind="{ ...inputConfig }"
+                v-model="filter"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="mdi-magnify" />
+                </template>
+              </q-input>
               <q-space />
               <q-btn
                 v-if="$q.platform.is.desktop"
                 icon="mdi-plus"
-                label="Escolas"
-                color="info"
-                dense
+                label="Cadastrar nova escola"
                 :to="{ name: 'form-escola' }"
+                v-bind="{ ...btnConfig }"
               />
+              <download-excel
+                :data="escolas"
+                :fields="fields"
+                worksheet="Escolas"
+                name="Escolas.xls"
+                class="q-ml-md"
+              >
+                <q-btn
+                  icon="mdi-file-excel"
+                  label="Exportar uma lista"
+                  v-bind="{ ...btnConfig }"
+                />
+              </download-excel>
             </template>
             <template v-slot:body-cell-actions="props">
               <q-td :props="props" class="q-gutter-x-sm text-center">
@@ -100,7 +123,7 @@
           class="flex flex-center text-body1 text-center"
           v-if="$q.platform.is.mobile && escolas == null"
         >
-          <q-btn flat color="red">
+          <q-btn color="red">
             De momento não tens nenhuma escola cadastrada
           </q-btn>
         </div>
@@ -130,11 +153,16 @@ import userApi from "src/composible/userApi";
 import usenotification from "src/composible/useNotify";
 import { Loading, useQuasar } from "quasar";
 import { columns } from "./table";
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
+import { fields } from "./fieldsExport";
+import JsonExcel from "vue-json-excel3";
 export default defineComponent({
+  components: { DownloadExcel: JsonExcel },
   setup() {
     const escolas = ref([]);
     const { list, remove } = userApi();
     const router = useRouter();
+    const filter = ref("");
     const $q = useQuasar();
     const table = "escolas";
     const { notifyError, notifySuccess } = usenotification();
@@ -183,6 +211,10 @@ export default defineComponent({
       alterarItem,
       deletarItem,
       escolas,
+      btnConfig,
+      inputConfig,
+      fields,
+      filter,
     };
   },
 });

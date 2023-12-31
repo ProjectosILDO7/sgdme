@@ -9,7 +9,7 @@ const columns = [
   {
     name: "numero",
     label: "Nº da escola",
-    right: "left",
+    align: "left",
     field: "numero",
     sortable: true,
   },
@@ -23,21 +23,21 @@ const columns = [
   {
     name: "provincia",
     label: "Província",
-    right: "left",
+    align: "left",
     field: "provincia",
     sortable: true,
   },
   {
     name: "municipio",
     label: "Município",
-    right: "left",
+    align: "left",
     field: "municipio",
     sortable: true,
   },
   {
     name: "actions",
     label: "Opções",
-    right: "left",
+    align: "left",
     field: "actions",
     sortable: true,
   },

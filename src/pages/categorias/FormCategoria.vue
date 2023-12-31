@@ -17,23 +17,24 @@
                   (val && val.length > 0) ||
                   'Porfavor digite o nome da categoria',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.salario_base"
               label="Salário base"
               id="valor"
               class="col-12"
-              lazy-rules
               :rules="[(val) => !!val || 'Porfavor digite o salário base']"
               suffix="Kz"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.salario_liquido"
               label="Salário líquido"
               class="col-12"
-              lazy-rules
               :rules="[(val) => !!val || 'Porfavor digite o salário liquido']"
               suffix="Kz"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-btn
@@ -41,28 +42,29 @@
               :icon="
                 isUpdate ? 'mdi-file-edit-outline' : 'mdi-content-save-all'
               "
-              color="info"
+              color="primary"
               class="full-width"
               :label="isUpdate ? 'Actualizar categoria' : 'Cadastrar categoria'"
+              v-bind="{ ...btnConfig }"
             />
 
             <q-btn
               v-if="$q.platform.is.mobile && isUpdate"
               @click="deletarItem(form)"
               icon="mdi-delete-empty"
-              color="negative"
+              color="secondary"
               class="full-width"
               label="Apagar categoria"
             />
             <q-space />
             <q-btn
               v-if="$q.platform.is.mobile"
-              flat
               icon="mdi-format-list-bulleted"
-              color="secondary"
               class="full-width q-pa-sm"
               label="Lista de categorias"
+              flat
               :to="{ name: 'categorias' }"
+              v-bind="{ ...btnConfig }"
             />
           </div>
         </q-form>
@@ -87,7 +89,8 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, inject } from "vue";
+import { inputConfig, btnConfig } from "src/utils/inputVisual";
 import usenotification from "src/composible/useNotify";
 import userApi from "src/composible/userApi";
 import { Loading, useQuasar } from "quasar";
@@ -174,6 +177,8 @@ export default {
       deletarItem,
       table,
       addCategoria,
+      inputConfig,
+      btnConfig,
     };
   },
 };

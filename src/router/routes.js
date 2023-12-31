@@ -69,13 +69,18 @@ const routes = [
         name: "pagePlano",
         component: () => import("pages/servicos/perh/plano/pagePlano.vue"),
       },
+      {
+        path: "configuarações",
+        name: "form-config",
+        component: () => import("pages/config/FormConfig.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },
 
   {
     path: "/",
-    component: () => import("layouts/MainLayoutHome.vue"),
+    component: () => import("layouts/HomeLayout.vue"),
     children: [
       {
         path: "",

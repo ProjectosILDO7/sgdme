@@ -4,7 +4,7 @@
       <q-page padding>
         <div class="row" v-if="$q.platform.is.desktop">
           <q-table
-            :rows="funcionarios"
+            :rows="funcionarioCategoriasAndEscolas"
             flat
             bordered
             :columns="columns"
@@ -13,16 +13,36 @@
             virtual-scroll
           >
             <template v-slot:top>
-              <span class="text-h6">Funcionarios</span>
+              <q-input
+                dense
+                type="text"
+                label="Pesquisar"
+                v-model="filter"
+                v-bind="{ ...inputConfig }"
+                ><template v-slot:prepend>
+                  <q-icon name="mdi-magnify" /> </template
+              ></q-input>
               <q-space />
               <q-btn
                 v-if="$q.platform.is.desktop"
                 icon="mdi-plus"
-                label="Funcionario"
-                color="info"
-                dense
+                label="Cadastrar novo funcionario"
                 :to="{ name: 'form-funcionario' }"
+                v-bind="{ ...btnConfig }"
               />
+              <download-excel
+                :data="funcionarioCategoriasAndEscolas"
+                :fields="fields"
+                worksheet="funcionarios"
+                name="Funcionarios.xls"
+                class="q-ml-md"
+              >
+                <q-btn
+                  icon="mdi-file-excel"
+                  label="Exportar uma lista"
+                  v-bind="{ ...btnConfig }"
+                />
+              </download-excel>
             </template>
             <template v-slot:body-cell-img_url="props">
               <q-td :props="props" class="text-center">
@@ -72,7 +92,10 @@
         </div>
 
         <!-- List for mobile -->
-        <q-list bordered v-if="$q.platform.is.mobile && funcionarios != ''">
+        <q-list
+          bordered
+          v-if="$q.platform.is.mobile && funcionarioCategoriasAndEscolas != ''"
+        >
           <div
             class="row text-body3 text-h5 flex-center q-pa-lg bg-secondary text-white"
           >
@@ -80,12 +103,9 @@
           </div>
           <q-separator />
           <q-item
-            v-for="funcionario in funcionarios"
+            v-for="funcionario in funcionarioCategoriasAndEscolas"
             :key="funcionario.id"
-            class="q-mb-sm"
-            clickable
-            v-ripple
-            @click="alterarItem(funcionario)"
+            class="q-mb-sm q-mt-sm"
           >
             <q-item-section avatar>
               <q-avatar v-if="funcionario.img_url">
@@ -105,10 +125,80 @@
                 >Nº de agente:
                 <strong class="secondary">{{ funcionario.num_agente }}</strong>
               </q-item-label>
-              <q-item-label caption lines="1"
-                >Nº do BI:
-                <strong class="secondary">{{ funcionario.num_bilhete }}</strong>
-              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <div>
+                <q-btn-dropdown
+                  flat
+                  dropdown-icon="mdi-dots-vertical"
+                  no-icon-animation
+                >
+                  <q-list>
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="alterarItem(funcionario)"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          <q-btn
+                            dense
+                            flat
+                            size="sm"
+                            no-caps
+                            icon="mdi-file-edit"
+                            color="green-10"
+                            label="Alterar"
+                          />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="detalhes(funcionario)"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          <q-btn
+                            dense
+                            flat
+                            size="sm"
+                            label="Mais detalhes"
+                            icon="mdi-eye-outline"
+                            color="blue-grey-8"
+                          />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="deletarItem(funcionario)"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          <q-btn
+                            dense
+                            flat
+                            size="sm"
+                            label="Apagar"
+                            icon="mdi-delete-circle-outline"
+                            color="red-8"
+                          />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+                <!--
+
+
+                -->
+              </div>
             </q-item-section>
             <q-separator />
           </q-item>
@@ -129,7 +219,11 @@
         </q-page-sticky>
 
         <!-- Mais detalhes -->
-        <detalhes-component :show="handleShowDetail" :itens="itens" />
+        <detalhes-component
+          :show="handleShowDetail"
+          :itens="itens"
+          @closeModal="closeModal"
+        />
         <!-- fim dialog -->
       </q-page>
     </q-page-container>
@@ -142,15 +236,18 @@ import { useRouter } from "vue-router";
 import userApi from "src/composible/userApi";
 import usenotification from "src/composible/useNotify";
 import userAuth from "src/composible/userAuthUser";
-import { Loading, useQuasar } from "quasar";
+import { useQuasar } from "quasar";
 import { columns } from "./table";
 import detalhesComponent from "src/components/detalhesComponent.vue";
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
+import { fields } from "./fieldsExport";
+import JsonExcel from "vue-json-excel3";
 export default defineComponent({
-  components: { detalhesComponent },
+  components: { detalhesComponent, DownloadExcel: JsonExcel },
   setup() {
     const funcionarios = ref([]);
     const itensDetails = ref("");
-    const { list, remove } = userApi();
+    const { remove, getFuncionariosWithCategoriasAndEscolas } = userApi();
     const token = userAuth();
     const router = useRouter();
     const storage = "sgdme";
@@ -158,23 +255,18 @@ export default defineComponent({
     const $q = useQuasar();
     const itens = ref([]);
     const card = ref(false);
+    const filter = ref("");
     const table = "funcionarios";
     const { notifyError, notifySuccess } = usenotification();
-
-    const listarFuncionarios = async () => {
-      Loading.show({ message: "Carregando funcionários" });
-      try {
-        funcionarios.value = await list(table);
-      } catch (error) {
-        notifyError(error.message);
-      } finally {
-        Loading.hide();
-      }
-    };
+    const funcionarioCategoriasAndEscolas = ref([]);
 
     const detalhes = (data) => {
       itens.value = data;
       handleShowDetail.value = true;
+    };
+
+    const closeModal = () => {
+      handleShowDetail.value = false;
     };
 
     const deletarItem = async (item) => {
@@ -185,15 +277,15 @@ export default defineComponent({
           cancel: true,
           persistent: true,
         }).onOk(async () => {
-          Loading.show({ message: "Apagando dados do funcionários..." });
+          $q.loading.show({ message: "Apagando dados do funcionários..." });
           await remove(table, item.id);
-          listarEscolas();
+          listarFuncionariosComCategoria();
           notifySuccess("Dados do funcionário apagado com sucesso");
         });
       } catch (error) {
         notifyError(error.message);
       } finally {
-        Loading.hide();
+        $q.loading.hide();
       }
     };
 
@@ -202,8 +294,19 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      listarFuncionarios();
+      listarFuncionariosComCategoria();
     });
+
+    const listarFuncionariosComCategoria = async () => {
+      try {
+        funcionarioCategoriasAndEscolas.value =
+          await getFuncionariosWithCategoriasAndEscolas(table);
+        console.log(funcionarioCategoriasAndEscolas.value);
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    };
 
     return {
       columns,
@@ -217,6 +320,13 @@ export default defineComponent({
       itensDetails,
       itens,
       handleShowDetail,
+      btnConfig,
+      inputConfig,
+      fields,
+      listarFuncionariosComCategoria,
+      funcionarioCategoriasAndEscolas,
+      filter,
+      closeModal,
     };
   },
 });

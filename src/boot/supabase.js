@@ -11,7 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 supabase.auth.onAuthStateChange((event, session) => {
   const { user, token } = userAuthUser();
   user.value = session?.user;
-  token.value = session.access_token;
+  token.value = session?.access_token;
 });
 
 export default function useSupabase() {

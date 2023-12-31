@@ -10,7 +10,7 @@ const columns = [
   {
     name: "salario_base",
     label: "Salario Base",
-    right: "left",
+    align: "left",
     field: "salario_base",
     sortable: true,
     format: (val) => formatCurrency(val),
@@ -18,7 +18,7 @@ const columns = [
   {
     name: "salario_liquido",
     label: "Salario Líquido",
-    right: "left",
+    align: "left",
     field: "salario_liquido",
     sortable: true,
     format: (val) => formatCurrency(val),
@@ -26,7 +26,7 @@ const columns = [
   {
     name: "actions",
     label: "Opções",
-    right: "left",
+    align: "left",
     field: "actions",
     sortable: true,
   },

@@ -19,6 +19,7 @@
               filled
               type="file"
               accept="image/*"
+              v-bind="{ ...inputConfig }"
             />
             <!-- <div class="col-12 q-ma-md flex flex-center">
               <q-uploader
@@ -35,40 +36,43 @@
               v-model="form.nome"
               label="Nome completo"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Porfavor digite o nome da escola',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.nome_pai"
               label="Nome do pai"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Porfavor o nome do pai',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.nome_mae"
               label="Nome da maê"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Porfavor o nome da maê',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
               v-model="form.num_bilhete"
               label="Nº do bilhete"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Porfavor informe o nº do Bilhete',
+                (val) =>
+                  (val && val.length == 14) ||
+                  'O nº do Bilhete tem de ter no mínimo 14 caracteres',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
@@ -76,12 +80,12 @@
               label="Data de emissão"
               class="col-12"
               type="date"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) ||
                   'Porfavor informe a data de emissão',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
@@ -89,51 +93,81 @@
               label="Data de caducidade"
               class="col-12"
               type="date"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) ||
                   'Porfavor informe a data de caducidade',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.data_nascimento"
               label="Data de nascimento"
               class="col-12"
               type="date"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) ||
                   'Porfavor informe a data de nascimento',
               ]"
+              v-bind="{ ...inputConfig }"
+            />
+            <q-select
+              v-model="form.genero"
+              :options="options"
+              option-label="name"
+              label="Selecione o gênero"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) ||
+                  'Porfavor informe o gênero do funcionário',
+              ]"
+              v-bind="{ ...inputConfig }"
+            />
+
+            <q-input
+              v-model="form.data_inicio_funcao"
+              label="Data de início de função"
+              class="col-12"
+              type="date"
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) ||
+                  'Porfavor informe a data de início de função',
+              ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.num_agente"
               label="Nº de agente"
               class="col-12"
-              lazy-rules
-              :rules="[(val) => !!val || 'Porfavor informe o nº de agente']"
+              :rules="[
+                (val) => !!val || 'Porfavor informe o nº de agente',
+                (val) =>
+                  (val && val.length == 7) ||
+                  'O nº de agente tem de ter no mínimo 7 caracteres',
+              ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
               v-model="form.provincia"
               label="Provincia"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Informe a província',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
               v-model="form.municipio"
               label="Município"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Informe o município',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
@@ -142,16 +176,17 @@
               class="col-12"
               lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Informe a Comuna']"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-input
               v-model="form.localidade"
               label="Localidade"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Informe a localidade',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-select
               v-model="form.categoria_id"
@@ -161,6 +196,10 @@
               map-options
               emit-value
               label="Selecione uma categoria"
+              :rules="[
+                (val) => (val && !!val) || 'Porfavor Selecione uma categoria',
+              ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-select
               v-model="form.escola_id"
@@ -170,36 +209,40 @@
               map-options
               emit-value
               label="Selecione a escola a que pertence"
+              :rules="[
+                (val) => (val && !!val) || 'Porfavor a escola a que pertence',
+              ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.habilitacao"
               label="Habilitação"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Informe a habilitação',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.area_formacao"
               label="Área de formação"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Informe a área de formação',
               ]"
+              v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.instituto_formacao"
               label="Instituto de formação"
               class="col-12"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) ||
                   'Informe o nome da instituição onde se formou',
               ]"
+              v-bind="{ ...inputConfig }"
             />
 
             <q-btn
@@ -207,13 +250,13 @@
               :icon="
                 isUpdate ? 'mdi-file-edit-outline' : 'mdi-content-save-all'
               "
-              color="info"
               class="full-width"
               :label="
                 isUpdate
                   ? 'Actualizar dados do funcionário'
                   : 'Cadastrar o funcionário'
               "
+              v-bind="{ ...btnConfig }"
             />
 
             <!-- Btn delete for mobile -->
@@ -248,6 +291,7 @@ import usenotification from "src/composible/useNotify";
 import userApi from "src/composible/userApi";
 import { Loading, useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
+import { btnConfig, inputConfig } from "src/utils/inputVisual";
 
 export default {
   name: "form-categoria",
@@ -258,8 +302,10 @@ export default {
     const { notifyError, notifySuccess } = usenotification();
     const table = "funcionarios";
     const router = useRouter();
+
     const route = useRoute();
     const $q = useQuasar();
+    const options = ref(["Masculino", "Femenino"]);
     const categorias = ref([]);
     const escolas = ref([]);
     const image = ref([]);
@@ -272,6 +318,8 @@ export default {
       data_emissao: "",
       data_caducidade: "",
       data_nascimento: "",
+      genero: "",
+      data_inicio_funcao: "",
       provincia: "",
       municipio: "",
       comuna: "",
@@ -369,6 +417,9 @@ export default {
       addItems,
       categorias,
       escolas,
+      options,
+      btnConfig,
+      inputConfig,
     };
   },
 };

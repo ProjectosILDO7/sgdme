@@ -3,14 +3,26 @@
     <!-- Header for mobile -->
     <q-header bordered class="bg-primary-3 text-white">
       <q-toolbar>
-        <q-toolbar-title class="text-center">
+        <q-toolbar-title>
           <q-avatar
             color="white"
             text-color="brown-5"
             icon="mdi-school-outline"
           />
-          D.M.E
+          <span v-if="brand.name">
+            <span class="q-ml-sm">{{ brand.name }}</span></span
+          >
+          <span v-else> <span class="q-ml-sm">D.M.E</span></span>
         </q-toolbar-title>
+        <q-space />
+        <darkmode-change />
+        <q-btn
+          dense
+          flat
+          class="q-ml-sm"
+          icon="mdi-power"
+          @click="logoutPage"
+        />
       </q-toolbar>
     </q-header>
 
@@ -26,13 +38,51 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> D.M.E </q-toolbar-title>
+        <q-toolbar-title>
+          <span v-if="brand.name">{{ brand.name }}</span>
+          <span v-else>D.M.E</span>
+        </q-toolbar-title>
 
-        <q-btn flat icon="person" v-if="user && $q.platform.is.desktop">
-          Ola {{ user.user_metadata.name }}</q-btn
+        <darkmode-change />
+        <q-btn-dropdown
+          flat
+          icon="person"
+          :label="user.user_metadata.name"
+          v-if="user && $q.platform.is.desktop"
         >
-        <q-btn color="deep-white" icon="logout" round flat @click="logoutPage">
-        </q-btn>
+          <q-list>
+            <q-item clickable v-close-popup @click="onItemClick">
+              <q-item-section>
+                <q-item-label
+                  ><q-avatar icon="mdi-account-network" /> Perfil
+                  D.M.E</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup @click="onItemClick">
+              <q-item-section>
+                <q-item-label
+                  ><q-avatar icon="mdi-lock-open-plus" /> Permisão
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup @click="formConfig">
+              <q-item-section>
+                <q-item-label
+                  ><q-avatar icon="mdi-cog" /> Configurações</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable v-close-popup @click="logoutPage">
+              <q-item-section>
+                <q-item-label><q-avatar icon="mdi-logout" />Sair</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -88,64 +138,50 @@
           icon="mdi-widgets"
           :to="{ name: 'page-service' }"
         />
+
+        <q-route-tab
+          name="config"
+          label="Configurações"
+          icon="mdi-cog"
+          :to="{ name: 'form-config' }"
+        />
       </q-tabs>
     </q-footer>
   </q-layout>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import userAuthUser from "src/composible/userAuthUser";
 import { useQuasar, Loading } from "quasar";
 import { useRouter } from "vue-router";
-
-const linksList = [
-  {
-    title: "Home",
-    caption: "painel de controle",
-    icon: "mdi-home",
-    routeName: "admin",
-  },
-  {
-    title: "Categorias",
-    caption: "informações de categorias de funcionários",
-    icon: "mdi-shape",
-    routeName: "categorias",
-  },
-  {
-    title: "Escolas",
-    caption: "nformações gerais de escolas",
-    icon: "mdi-school",
-    routeName: "escolas",
-  },
-  {
-    title: "Funcionários",
-    caption: "dados de funcionários",
-    icon: "mdi-account-tie",
-    routeName: "funcionarios",
-  },
-  {
-    title: "Serviços",
-    caption: "Serviços gerais",
-    icon: "mdi-cog",
-    routeName: "page-service",
-  },
-];
-
+import { links } from "./links.js";
+import useApi from "src/composible/userApi";
+import darkmodeChange from "src/components/darkMode/darkMode.vue";
 export default defineComponent({
   name: "MainLayout",
 
   components: {
     EssentialLink,
+    darkmodeChange,
   },
 
   setup() {
+    const { getBrand, brand } = useApi();
     const leftDrawerOpen = ref(false);
     const { logout, user } = userAuthUser();
     const $q = useQuasar();
     const tab = ref("home");
     const router = useRouter();
+
+    onMounted(() => {
+      getBrand();
+    });
+
+    const formConfig = () => {
+      router.push({ name: "form-config" });
+    };
 
     const logoutPage = async () => {
       try {
@@ -171,8 +207,10 @@ export default defineComponent({
       logoutPage,
       user,
       tab,
-      essentialLinks: linksList,
+      essentialLinks: links,
       leftDrawerOpen,
+      brand,
+      formConfig,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

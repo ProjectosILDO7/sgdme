@@ -11,24 +11,50 @@
             row-key="id"
             class="col-12"
             virtual-scroll
+            :filter="filter"
           >
             <template v-slot:top>
-              <span class="text-h6">Categorias</span>
+              <q-input
+                class=""
+                type="text"
+                label="Pesquisar"
+                v-bind="{ ...inputConfig }"
+                v-model="filter"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="mdi-magnify" />
+                </template>
+              </q-input>
+
               <q-space />
+
               <q-btn
                 v-if="$q.platform.is.desktop"
                 icon="mdi-plus"
-                label="Categorias"
-                color="info"
-                dense
+                label="Cadastrar nova categoria"
+                v-bind="{ ...btnConfig }"
                 :to="{ name: 'form-categoria' }"
               />
+
+              <download-excel
+                :data="categorias"
+                :fields="fields"
+                worksheet="Categorias"
+                name="categorias.xls"
+                class="q-ml-md"
+              >
+                <q-btn
+                  icon="mdi-file-excel"
+                  label="Exportar uma lista"
+                  v-bind="{ ...btnConfig }"
+                />
+              </download-excel>
             </template>
             <template v-slot:body-cell-actions="props">
               <q-td :props="props" class="q-gutter-x-sm text-center">
                 <q-btn
                   icon="mdi-pencil-outline"
-                  color="info"
+                  color="primary"
                   dense
                   size="sm"
                   @click="alterarItem(props.row)"
@@ -37,7 +63,7 @@
                 </q-btn>
                 <q-btn
                   icon="mdi-delete-outline"
-                  color="negative"
+                  color="secondary"
                   dense
                   size="sm"
                   @click="deletarItem(props.row)"
@@ -112,12 +138,17 @@ import usenotification from "src/composible/useNotify";
 import { Loading, useQuasar } from "quasar";
 import { columns } from "./table";
 import { formatCurrency } from "src/utils/formatCurrency";
+import { inputConfig, btnConfig } from "src/utils/inputVisual";
+import JsonExcel from "vue-json-excel3";
+import { fields } from "./fieldsExport";
 export default defineComponent({
+  components: { DownloadExcel: JsonExcel },
   setup() {
     const categorias = ref([]);
     const { list, remove } = userApi();
     const router = useRouter();
     const $q = useQuasar();
+    const filter = ref("");
     const table = "categorias";
     const { notifyError, notifySuccess } = usenotification();
 
@@ -166,6 +197,10 @@ export default defineComponent({
       formatCurrency,
       deletarItem,
       categorias,
+      btnConfig,
+      inputConfig,
+      filter,
+      fields,
     };
   },
 });

@@ -1,17 +1,39 @@
 import userAuthUser from "./userAuthUser";
 import userSupabase from "boot/supabase";
 import { v4 as uuid } from "uuid";
+import { ref } from "vue";
+import useBrand from "src/composible/useBrand.js";
+import { useQuasar } from "quasar";
 
+const brand = ref({
+  name: "",
+  phone: "",
+  primary: "",
+  secondary: "",
+});
 export default function userApi() {
   const { user } = userAuthUser();
+  const $q = useQuasar();
   const fileName = uuid();
   const { supabase } = userSupabase();
+  const { setBrand } = useBrand();
 
   const list = async (table) => {
     const { data, error } = await supabase.from(table).select();
     if (error) throw error;
     return data;
   };
+
+  const getFuncionariosWithCategoriasAndEscolas = async (tabela) => {
+    const { data, error } = await supabase.from(tabela).select(`
+      id,
+      *,
+      escolas (id, nome), categorias (id, categoria)
+    `);
+    if (error) throw error;
+    return data;
+  };
+
   const getById = async (table, id) => {
     const { data, error } = await supabase.from(table).select().eq("id", id);
     if (error) throw error;
@@ -64,6 +86,25 @@ export default function userApi() {
     return data.publicUrl;
   };
 
+  const getBrand = async () => {
+    const id = user?.value?.id;
+    if (id) {
+      $q.loading.show();
+      const { data, error } = await supabase
+        .from("config")
+        .select("*")
+        .eq("user_id", id);
+
+      if (error) throw error;
+      if (data.length > 0) {
+        (brand.value = data[0]),
+          setBrand(brand.value.primary, brand.value.secondary);
+      }
+      $q.loading.hide();
+      return brand;
+    }
+  };
+
   return {
     list,
     getById,
@@ -72,5 +113,8 @@ export default function userApi() {
     update,
     remove,
     fileName,
+    getBrand,
+    brand,
+    getFuncionariosWithCategoriasAndEscolas,
   };
 }

@@ -3,8 +3,14 @@
     <q-page-container>
       <q-page padding>
         <q-form class="row justify-center" @submit.prevent="userLogin">
-          <p class="col-12 text-h5 text-center q-mt-lg">Login</p>
+          <p class="col-12 text-h5 text-center q-mt-lg">
+            <q-avatar>
+              <img src="../../public/icons/ensigna.png" />
+            </q-avatar>
+          </p>
+
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-sm">
+            <p class="text-center text-h5">D.M.E</p>
             <q-input
               v-model="form.email"
               label="E-mail"
