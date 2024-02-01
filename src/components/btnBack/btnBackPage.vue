@@ -6,7 +6,7 @@
     icon="mdi-arrow-left"
     label="voltar"
     @click="backPage"
-    color="secondary"
+    color="primary"
     class="small-text"
   ></q-btn>
 </template>

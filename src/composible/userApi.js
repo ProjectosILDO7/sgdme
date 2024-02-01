@@ -28,10 +28,22 @@ export default function userApi() {
     const { data, error } = await supabase.from(tabela).select(`
       id,
       *,
-      escolas (id, nome), categorias (id, categoria)
+      escolas (id, nome), categorias (id, categoria, salario_base)
     `);
     if (error) throw error;
     return data;
+  };
+
+  const fetchCount = async (table, userId) => {
+    const { data, error, count } = await supabase
+      .from(table)
+      .select("*", { count: "exact" })
+      .eq("user_id", userId);
+    if (error) throw error;
+    return {
+      data,
+      count,
+    };
   };
 
   const getById = async (table, id) => {
@@ -116,5 +128,6 @@ export default function userApi() {
     getBrand,
     brand,
     getFuncionariosWithCategoriasAndEscolas,
+    fetchCount,
   };
 }

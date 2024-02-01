@@ -19,23 +19,6 @@
               ]"
               v-bind="{ ...inputConfig }"
             />
-            <q-input
-              v-model="form.salario_base"
-              label="Salário base"
-              id="valor"
-              class="col-12"
-              :rules="[(val) => !!val || 'Porfavor digite o salário base']"
-              suffix="Kz"
-              v-bind="{ ...inputConfig }"
-            />
-            <q-input
-              v-model="form.salario_liquido"
-              label="Salário líquido"
-              class="col-12"
-              :rules="[(val) => !!val || 'Porfavor digite o salário liquido']"
-              suffix="Kz"
-              v-bind="{ ...inputConfig }"
-            />
 
             <q-btn
               type="submit"
@@ -107,8 +90,6 @@ export default {
     const route = useRoute();
     const form = ref({
       categoria: "",
-      salario_base: "",
-      salario_liquido: "",
     });
 
     const isUpdate = computed(() => {

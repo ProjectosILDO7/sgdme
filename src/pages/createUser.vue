@@ -96,8 +96,8 @@ export default {
     const form = ref({
       email: "",
       password: "",
-      name: "John Doe",
-      phone: "+11234567890",
+      name: "",
+      phone: "",
       photoURL: "",
     });
 

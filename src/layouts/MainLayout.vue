@@ -54,15 +54,6 @@
             <q-item clickable v-close-popup @click="onItemClick">
               <q-item-section>
                 <q-item-label
-                  ><q-avatar icon="mdi-account-network" /> Perfil
-                  D.M.E</q-item-label
-                >
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-close-popup @click="onItemClick">
-              <q-item-section>
-                <q-item-label
                   ><q-avatar icon="mdi-lock-open-plus" /> Permisão
                 </q-item-label>
               </q-item-section>

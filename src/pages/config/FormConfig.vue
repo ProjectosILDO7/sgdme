@@ -56,6 +56,7 @@ import useBrand from "src/composible/useBrand";
 import userApi from "src/composible/userApi";
 import userAuthUser from "src/composible/userAuthUser";
 import { useQuasar } from "quasar";
+
 export default defineComponent({
   name: "config-page",
   setup() {
@@ -81,7 +82,9 @@ export default defineComponent({
       try {
         $q.loading.show();
         const config = await list(tabela);
-        form.value = config[0];
+        if (config.length > 0) {
+          form.value = config[0];
+        }
       } catch (error) {
         console.log(error.message);
       } finally {

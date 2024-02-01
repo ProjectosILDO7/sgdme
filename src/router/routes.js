@@ -79,6 +79,12 @@ const routes = [
         name: "orcamentos",
         component: () => import("pages/orcamentos/list-orcamentos.vue"),
       },
+      {
+        path: "/area-estatistica",
+        name: "areaEstatistica",
+        component: () =>
+          import("pages/servicos/perh/estatistica/areaEstatistica.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },

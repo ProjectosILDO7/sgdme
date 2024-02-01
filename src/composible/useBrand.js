@@ -9,6 +9,5 @@ export default function useBrand() {
       setCssVar("secondary", secondary);
     }
   };
-
   return { setBrand };
 }

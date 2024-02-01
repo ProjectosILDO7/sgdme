@@ -21,7 +21,7 @@
           />
           <q-btn
             icon="mdi-scale-balance"
-            label="S.INSPENS."
+            label="S.INSPESS."
             v-bind="{ ...btnConfig }"
             class="q-pa-lg"
             :to="{ name: 'inspencao' }"

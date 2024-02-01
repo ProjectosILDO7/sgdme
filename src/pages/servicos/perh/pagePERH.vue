@@ -18,6 +18,7 @@
             icon="mdi-finance"
             v-bind="{ ...btnConfig }"
             label="Área de Estatística"
+            :to="{ name: 'areaEstatistica' }"
           />
           <q-btn
             icon="mdi-account-group"

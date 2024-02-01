@@ -188,6 +188,7 @@
               ]"
               v-bind="{ ...inputConfig }"
             />
+
             <q-select
               v-model="form.categoria_id"
               :options="categorias"
@@ -201,6 +202,27 @@
               ]"
               v-bind="{ ...inputConfig }"
             />
+
+            <q-input
+              type="numeric"
+              v-model="form.salario_base"
+              label="Vencimento Base"
+              class="col-12"
+              :rules="[
+                (val) => (val && val.length > 0) || 'Informe o salário base',
+              ]"
+              v-bind="{ ...inputConfig }"
+            />
+            <q-input
+              v-model="form.salario_liquido"
+              label="Vencimento Líquido"
+              class="col-12"
+              :rules="[
+                (val) => (val && val.length > 0) || 'Informe o salário líquido',
+              ]"
+              v-bind="{ ...inputConfig }"
+            />
+
             <q-select
               v-model="form.escola_id"
               :options="escolas"
@@ -286,7 +308,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import usenotification from "src/composible/useNotify";
 import userApi from "src/composible/userApi";
 import { Loading, useQuasar } from "quasar";
@@ -309,6 +331,7 @@ export default {
     const categorias = ref([]);
     const escolas = ref([]);
     const image = ref([]);
+
     const form = ref({
       nome: "",
       nome_pai: "",
@@ -331,7 +354,13 @@ export default {
       instituto_formacao: "",
       img_url: "",
       file_name: "",
+      salario_base: "",
+      salario_liquido: "",
     });
+
+    watch(() => {});
+
+    onMounted(() => {});
 
     const isUpdate = computed(() => {
       return route.params.id;

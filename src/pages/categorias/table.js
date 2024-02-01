@@ -16,14 +16,6 @@ const columns = [
     format: (val) => formatCurrency(val),
   },
   {
-    name: "salario_liquido",
-    label: "Salario Líquido",
-    align: "left",
-    field: "salario_liquido",
-    sortable: true,
-    format: (val) => formatCurrency(val),
-  },
-  {
     name: "actions",
     label: "Opções",
     align: "left",

@@ -93,6 +93,22 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-6">
             <span class="text-body1"
+              >Vencimento Base:
+              <span class="text-green-10">{{
+                formatCurrency(itens.salario_base)
+              }}</span></span
+            >
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-6">
+            <span class="text-body1"
+              >Vencimento Liquido:
+              <span class="text-green-10">{{
+                formatCurrency(itens.salario_liquido)
+              }}</span></span
+            >
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-6">
+            <span class="text-body1"
               >Habilitação Literá:
               <span class="text-blue-grey-5">{{
                 itens.habilitacao
@@ -177,6 +193,7 @@
 <script>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { formatCurrency } from "src/utils/formatCurrency";
 export default {
   name: "modalDetail",
   props: {
@@ -199,6 +216,7 @@ export default {
     return {
       handClose,
       funcionarios,
+      formatCurrency,
     };
   },
 };

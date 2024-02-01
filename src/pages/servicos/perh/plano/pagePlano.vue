@@ -14,7 +14,6 @@
               dense
               size="sm"
               icon="mdi-eye-outline"
-              color="primary"
               label="ver orçamentos"
               @click="see_orcamentos"
             />

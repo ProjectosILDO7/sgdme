@@ -301,7 +301,6 @@ export default defineComponent({
       try {
         funcionarioCategoriasAndEscolas.value =
           await getFuncionariosWithCategoriasAndEscolas(table);
-        console.log(funcionarioCategoriasAndEscolas.value);
       } catch (error) {
         console.log(error);
       } finally {
