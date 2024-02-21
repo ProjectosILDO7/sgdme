@@ -95,18 +95,6 @@
 
             <q-item-section>
               <q-item-label>{{ categoria.categoria }}</q-item-label>
-              <q-item-label caption lines="1"
-                >Salário líquido:
-                <strong class="secondary">{{
-                  formatCurrency(categoria.salario_liquido)
-                }}</strong>
-              </q-item-label>
-              <q-item-label caption lines="2"
-                >Salário Base:
-                <strong class="secondary">{{
-                  formatCurrency(categoria.salario_base)
-                }}</strong>
-              </q-item-label>
             </q-item-section>
             <q-separator />
           </q-item>
