@@ -28,7 +28,7 @@ export default function userApi() {
     const { data, error } = await supabase.from(tabela).select(`
       id,
       *,
-      escolas (id, nome), categorias (id, categoria, salario_base)
+      escolas (id, nome), categorias (id, categoria)
     `);
     if (error) throw error;
     return data;

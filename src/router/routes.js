@@ -85,6 +85,23 @@ const routes = [
         component: () =>
           import("pages/servicos/perh/estatistica/areaEstatistica.vue"),
       },
+
+      {
+        path: "/serviceRH",
+        name: "service_do_rh",
+        component: () => import("pages/servicos/perh/rh/servicesRH.vue"),
+      },
+      {
+        path: "/docRh",
+        name: "docRH",
+        component: () => import("pages/servicos/perh/rh/docRH.vue"),
+      },
+      {
+        path: "/docPrint/:id?",
+        name: "docPrint",
+        component: () =>
+          import("pages/servicos/perh/rh/doc/termInicioFuncao.vue"),
+      },
     ],
     meta: { requiresAuth: true },
   },

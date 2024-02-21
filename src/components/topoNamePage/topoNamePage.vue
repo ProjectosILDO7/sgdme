@@ -10,6 +10,7 @@ import { defineComponent, ref, onMounted } from "vue";
 export default defineComponent({
   props: {
     titulo: {
+      type: String,
       require: true,
     },
   },

@@ -1,34 +1,30 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page class="flex flex-center">
-        <div class="q-pa-lg">
-          <div class="column p-gutter text-center" style="height: 150px">
-            <div class="col-6 col-sm-6 q-pa-sm q-gutter-sm">
-              <q-btn
-                class="q-pa-sm"
-                icon="mdi-shape-plus"
-                label="Categorias"
-                v-bind="{ ...btnConfig }"
-                :to="{ name: 'categorias' }"
-              ></q-btn>
-              <q-btn
-                class="q-pa-sm text-center"
-                icon="mdi-school-outline"
-                label="Escola Info"
-                v-bind="{ ...btnConfig }"
-                :to="{ name: 'escolas' }"
-              ></q-btn>
+      <q-page padding>
+        <div class="row col-6 col-sm-6 q-pa-sm q-gutter-sm">
+          <q-btn
+            class="col-xs-12 col-sm-12 col-md-4 col-lg-4 q-pa-lg"
+            icon="mdi-shape-plus"
+            label="Categorias"
+            v-bind="{ ...btnConfig }"
+            :to="{ name: 'categorias' }"
+          ></q-btn>
+          <q-btn
+            class="col-xs-12 col-sm-12 col-md-4 col-lg-4 q-pa-lg text-center"
+            icon="mdi-school-outline"
+            label="Escola Info"
+            v-bind="{ ...btnConfig }"
+            :to="{ name: 'escolas' }"
+          ></q-btn>
 
-              <q-btn
-                class="q-pa-sm"
-                icon="mdi-account-tie"
-                label="Funcionário"
-                v-bind="{ ...btnConfig }"
-                :to="{ name: 'funcionarios' }"
-              ></q-btn>
-            </div>
-          </div>
+          <q-btn
+            class="col-xs-12 col-sm-12 col-md-4 col-lg-4 q-pa-lg"
+            icon="mdi-account-tie"
+            label="Funcionário"
+            v-bind="{ ...btnConfig }"
+            :to="{ name: 'funcionarios' }"
+          ></q-btn>
         </div>
       </q-page>
     </q-page-container>

@@ -285,17 +285,19 @@
             <q-btn
               v-if="$q.platform.is.mobile && isUpdate"
               @click="deletarItem(form)"
+              outline
               icon="mdi-delete-empty"
               color="negative"
               class="full-width"
               label="Apagar dados do  funcionário"
+              no-caps
             />
 
             <q-btn
               v-if="$q.platform.is.mobile"
               flat
               icon="mdi-format-list-bulleted"
-              color="secondary"
+              color="primary"
               class="full-width q-pa-sm"
               label="Lista de funcionários"
               :to="{ name: 'funcionarios' }"
