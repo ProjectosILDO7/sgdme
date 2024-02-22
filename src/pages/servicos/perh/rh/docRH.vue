@@ -60,6 +60,97 @@
             </template>
           </q-table>
         </div>
+
+        <!-- List for mobile -->
+        <q-list bordered v-if="$q.platform.is.mobile && rows != ''">
+          <div
+            class="row text-body3 text-h5 flex-center q-pa-lg bg-secondary text-white"
+          >
+            <q-btn flat icon="mdi-account-tie" label="Funcionários" />
+          </div>
+          <q-separator />
+          <q-item
+            v-for="funcionario in rows"
+            :key="funcionario.id"
+            class="q-mb-sm q-mt-sm"
+          >
+            <q-item-section avatar>
+              <q-avatar v-if="funcionario.img_url">
+                <img :src="funcionario.img_url" />
+              </q-avatar>
+              <q-avatar
+                v-else
+                color="grey"
+                text-color="white"
+                icon="mdi-image-off"
+              />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>{{ funcionario.nome }}</q-item-label>
+              <q-item-label caption lines="1"
+                >Nº de agente:
+                <strong class="secondary">{{ funcionario.num_agente }}</strong>
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+              <div>
+                <q-btn-dropdown
+                  flat
+                  dropdown-icon="mdi-dots-vertical"
+                  no-icon-animation
+                >
+                  <q-list>
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="alterarItem(funcionario)"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          <q-btn
+                            dense
+                            flat
+                            size="sm"
+                            icon="mdi-file-document-outline"
+                            color="green-10"
+                            label="Guia de marcha"
+                          />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="detalhes(funcionario)"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          <q-btn
+                            dense
+                            flat
+                            size="sm"
+                            label="Termo de função"
+                            icon="mdi-file-document-outline"
+                            color="blue-grey-8"
+                            @click="printDoc(funcionario)"
+                          />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+                <!--
+
+
+                -->
+              </div>
+            </q-item-section>
+            <q-separator />
+          </q-item>
+        </q-list>
       </q-page>
     </q-page-container>
   </q-layout>

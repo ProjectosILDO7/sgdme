@@ -4,15 +4,30 @@ import useSupabase from "boot/supabase";
 const user = ref(null);
 const token = ref(null);
 
+// Suponha que você tenha um arquivo onde gerencia o estado de autenticação, como userAuthUser.js
+// Você pode chamar a função renewTokenIfNeeded lá
+
+// src/composible/userAuthUser.js
+import { renewTokenIfNeeded } from "src/utils/tokenRenewal.js";
+
 export default function userAuthUser() {
   const { supabase } = useSupabase();
+
+  // Função para verificar o estado de autenticação e renovar o token se necessário
+  const checkAuthState = (event, session) => {
+    user.value = session?.user;
+    token.value = session?.access_token;
+
+    // Chame a função para renovar o token JWT, se necessário
+    renewTokenIfNeeded(session);
+  };
 
   const isLoggidIn = async () => {
     return !!user.value;
   };
 
   const getToken = async () => {
-    const { data, error } = supabase.auth.getSession();
+    const { data, error } = supabase.auth.onAuthStateChange(checkAuthState);
     if (error) throw error;
     console.log(data);
     token.value = data;

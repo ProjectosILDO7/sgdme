@@ -12,7 +12,7 @@ const brand = ref({
   secondary: "",
 });
 export default function userApi() {
-  const { user } = userAuthUser();
+  const { user, getToken } = userAuthUser();
   const $q = useQuasar();
   const fileName = uuid();
   const { supabase } = userSupabase();
@@ -100,6 +100,7 @@ export default function userApi() {
 
   const getBrand = async () => {
     const id = user?.value?.id;
+    console.log(id);
     if (id) {
       $q.loading.show();
       const { data, error } = await supabase
