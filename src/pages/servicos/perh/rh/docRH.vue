@@ -7,7 +7,7 @@
         </p>
         <btn-back-page />
         <q-separator />
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="$q.platform.is.desktop">
           <q-table
             dense
             flat
