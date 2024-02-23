@@ -1,6 +1,5 @@
 <template>
   <div>
-    <q-btn @click="gerarPDF">Gerar o documento</q-btn>
     <iframe
       v-if="pdfSrc"
       :src="pdfSrc"
@@ -28,17 +27,35 @@
 
       <div class="row">
         <div class="col-12" style="line-height: 1.5">
-          No dia 30 de Janeiro de 2024, compareceu no Gabinete do Senhor Manuel
-          Fernandes, Director Municipal da Educação, a Senhora Josina Cassova
-          Vitato, filha de Albino Tchihongo e de Laurinda Tchionga, natural da
-          comuna do Chipindo, Município do Chipindo, Província da Huíla, nascida
-          aos 16 de Julho de 1968, portadora do B.I. nº 004784774HA045, emitido
-          pelo sector de Identificação Civil de Luanda a 25 de Novembro de 2013,
-          habilitada com a 12ª Classe, feita na Escola Secundária do II ciclo
-          Nº. 1097 ex. N.º 3030 - Ingombota “Luanda”. A fim de reconstituir o
-          seu termo de inicio de funções como docente, com a categoria de
-          Professora do Ensino Primário e Secundário do 10º Grau, com inicio de
-          funções a 10 de Janeiro de 1993.
+          No dia {{ data }}, compareceu no Gabinete do Senhor
+          {{ addInfo.directoMunicipal }}, Director Municipal da Educação,
+          <span v-if="item[0].genero == 'Masculino'">o</span
+          ><span v-if="item[0].genero == 'Femenino'">a</span> Senhor<span
+            v-if="item[0].genero == 'Masculino'"
+            >o</span
+          ><span v-if="item[0].genero == 'Femenino'">a</span>
+          {{ item[0].nome }}, filh<span v-if="item[0].genero == 'Masculino'"
+            >o</span
+          ><span v-if="item[0].genero == 'Femenino'">a</span> de
+          {{ item[0].nome_pai }} e de {{ item[0].nome_mae }}, natural de
+          {{ item[0].municipio }} comuna de {{ item[0].comuna }}, Município de
+          {{ item[0].municipio }}, Província de {{ item[0].provincia }},
+          nascid<span v-if="item[0].genero == 'Femenino'">a</span
+          ><span v-if="item[0].genero == 'Masculino'">o</span> aos
+          {{ item[0].data_nascimento }}, portadora do B.I. nº
+          {{ item[0].num_bilhete }}, emitido pelo sector de Identificação Civil
+          de Luanda aos {{ item[0].data_emissao }}, habilitada com
+          {{ item[0].habilitacao }}, feita na {{ item[0].instituto_formacao }}.
+          A fim de
+          <span v-if="addInfo.tipoTermo == ''">
+            iniciar as suas funções como docente com a categoria de
+            {{ item[0].categorias.categoria }} cargo para qual foi contratado,
+            dia {{ item[0].data_inicio_funcao }}</span
+          ><spna v-else
+            >reconstituir o seu termo de inicio de funções como docente, com a
+            categoria de {{ item[0].categorias.categoria }}, com inicio de
+            funções a {{ item[0].data_inicio_funcao }}.</spna
+          >
         </div>
 
         <div class="col-12" style="line-height: 1.5">
@@ -53,8 +70,12 @@
           <br />
           <br />
           <br />
-          <b>O Docente</b>
+          <b
+            ><span v-if="item[0].genero == 'Masculino'">o</span
+            ><span v-if="item[0].genero == 'Femenino'">a</span> Docente</b
+          >
           <p>______________________________</p>
+          {{ item[0].nome }}
         </div>
 
         <div class="col-6 text-center" style="line-height: 1.5">
@@ -63,8 +84,29 @@
           <br />
           <br />
           <br />
-          <b>O Chefe da Secção do P.E.R.H</b>
+          <b
+            ><span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
+              Chefe da Secção do P.E.R.H
+            </span></b
+          ><b
+            ><span v-if="model2 == 'Interno(a)'">
+              Na Ausencia do Chefe de Sec. do P.E.R.H
+            </span></b
+          >
           <p>________________________________</p>
+          <span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
+            {{ addInfo.chef_PERH }}
+          </span>
+          <b
+            ><span v-if="model2 == 'Interno(a)'">
+              {{ addIfon.chef_PERH_interino }}
+            </span></b
+          >
+          <b
+            ><span v-if="model2 == 'Interno(a)'">
+              ({{ addIfon.chef_PERH_interino_funcao }})
+            </span></b
+          >
         </div>
 
         <div class="col-6 text-center" style="line-height: 1.5">
@@ -73,8 +115,29 @@
           <br />
           <br />
           <br />
-          <b>O Director Municipal</b>
+          <b
+            ><span v-if="model == 'Director Municipal'">
+              Chefe da Secção do P.E.R.H
+            </span></b
+          ><b
+            ><span v-if="model == 'Director Interino'">
+              Na Ausencia do Director Municipal
+            </span></b
+          >
           <p>________________________________</p>
+          <span v-if="model == 'Director Municipal'">
+            {{ addInfo.directoMunicipal }}
+          </span>
+          <b
+            ><span v-if="model2 == 'Director Interino'">
+              {{ addIfon.directoMunicipal_interino }}
+            </span></b
+          >
+          <b
+            ><span v-if="model2 == 'Director Interino'">
+              ({{ addIfon.directoMunicipal_interino_funcao }})
+            </span></b
+          >
         </div>
       </div>
     </div>
@@ -90,13 +153,35 @@ import { useQuasar } from "quasar";
 import usenotification from "src/composible/useNotify";
 import { document } from "postcss";
 export default {
-  setup() {
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    addInfo: {
+      type: Object,
+      required: true,
+    },
+    data: {
+      type: String,
+      required: true,
+    },
+    model: {
+      type: String,
+      required: true,
+    },
+    model2: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
     const tabela = "funcionarios";
     const pdfSrc = ref(null);
     const route = useRoute();
     const docRef = ref();
     const $q = useQuasar();
-    const { getById } = useApi();
+    const { getById, getFuncionariosWithCategoriasAndEscolas } = useApi();
     const dados = ref([]);
 
     const gerarPDF = () => {
@@ -166,7 +251,7 @@ export default {
 
     onMounted(() => {
       carregarFuncionario();
-      console.log(idFuncionario.value);
+      gerarPDF();
     });
 
     const idFuncionario = computed(() => {
@@ -176,7 +261,11 @@ export default {
     const carregarFuncionario = async () => {
       try {
         $q.loading.show("Carregar dados...");
-        dados.value = await getById(tabela, idFuncionario.value);
+        dados.value = await getFuncionariosWithCategoriasAndEscolas(
+          tabela,
+          idFuncionario.value
+        );
+        console.log(dados.value);
       } catch (error) {
         console.log(error.message);
       } finally {

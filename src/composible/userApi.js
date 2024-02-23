@@ -33,6 +33,23 @@ export default function userApi() {
     if (error) throw error;
     return data;
   };
+  const getFuncionarioWithCategoriasAndEscolas = async (
+    tabela,
+    idFuncionario
+  ) => {
+    const { data, error } = await supabase
+      .from(tabela)
+      .select(
+        `
+      id,
+      *,
+      escolas (id, nome), categorias (id, categoria)
+    `
+      )
+      .eq("id", idFuncionario);
+    if (error) throw error;
+    return data;
+  };
 
   const fetchCount = async (table, userId) => {
     const { data, error, count } = await supabase
@@ -129,6 +146,7 @@ export default function userApi() {
     getBrand,
     brand,
     getFuncionariosWithCategoriasAndEscolas,
+    getFuncionarioWithCategoriasAndEscolas,
     fetchCount,
   };
 }
