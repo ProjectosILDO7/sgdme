@@ -62,7 +62,7 @@
         </div>
 
         <!-- List for mobile -->
-        <q-list bordered v-if="$q.platform.is.mobile && rows != ''">
+        <q-list bordered v-if="$q.platform.is.mobile && rows != '' && docPdf">
           <div
             class="row text-body3 text-h5 flex-center q-pa-lg bg-secondary text-white"
           >
