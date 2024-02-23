@@ -124,7 +124,7 @@
                     <q-item
                       clickable
                       v-close-popup
-                      @click="printDoc(props.row.id)"
+                      @click="printDoc(funcionario.id)"
                     >
                       <q-item-section>
                         <q-item-label>
@@ -154,10 +154,17 @@
         <q-dialog v-model="modal">
           <q-card style="width: 700px; max-width: 80vw">
             <q-card-section>
-              <div class="text-h6">
+              <div class="text-h6" v-if="$q.platform.is.desktop">
                 <q-icon name="mdi-cloud-print" /> Documento:<b
                   >TERMO DE INÍCIO DE FUNÇÕES</b
                 >
+              </div>
+              <div
+                class="text-small col-12 text-center"
+                v-if="$q.platform.is.mobile"
+              >
+                <q-icon name="mdi-cloud-print" /> Documento:
+                <p><b>TERMO DE INÍCIO DE FUNÇÕES</b></p>
               </div>
             </q-card-section>
 
@@ -168,14 +175,14 @@
                   v-model="addInfo.tipoTermo"
                   val=""
                   label="Novo Termo"
-                  class="col-6"
+                  class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
                 />
                 <q-radio
                   size="sm"
                   v-model="addInfo.tipoTermo"
                   val=" - RECONSTITUIÇÃO"
                   label="Actualizar termo"
-                  class="col-6"
+                  class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
                 />
                 <!-- custom size -->
                 <b class="col-12 text-center">Asinaturas</b>
