@@ -19,7 +19,7 @@
             <b style="font-size: 11px">(GABINETE DO DIRECTOR MUNICIPAL)</b>
           </p>
           <br />
-          <b>TERMO DE INÍCIO DE FUNÇÕES</b>
+          <b>TERMO DE INÍCIO DE FUNÇÕES{{ addInfo.tipoTermo }}</b>
           <br />
           <br />
         </div>
@@ -71,8 +71,8 @@
           <br />
           <br />
           <b
-            ><span v-if="item[0].genero == 'Masculino'">o</span
-            ><span v-if="item[0].genero == 'Femenino'">a</span> Docente</b
+            ><span v-if="item[0].genero == 'Masculino'">O</span
+            ><span v-if="item[0].genero == 'Femenino'">A</span> Docente</b
           >
           <p>______________________________</p>
           {{ item[0].nome }}
@@ -99,12 +99,12 @@
           </span>
           <b
             ><span v-if="model2 == 'Interno(a)'">
-              {{ addIfon.chef_PERH_interino }}
+              {{ addInfo.chef_PERH_interino }}
             </span></b
           >
           <b
-            ><span v-if="model2 == 'Interno(a)'">
-              ({{ addIfon.chef_PERH_interino_funcao }})
+            ><span v-if="model2 == 'Interno(a)'" class="text-small">
+              ({{ addInfo.chef_PERH_interino_funcao }})
             </span></b
           >
         </div>
@@ -129,15 +129,17 @@
             {{ addInfo.directoMunicipal }}
           </span>
           <b
-            ><span v-if="model2 == 'Director Interino'">
-              {{ addIfon.directoMunicipal_interino }}
+            ><span v-if="model == 'Director Interino'">
+              {{ addInfo.directoMunicipal_interino }}
             </span></b
           >
-          <b
-            ><span v-if="model2 == 'Director Interino'">
-              ({{ addIfon.directoMunicipal_interino_funcao }})
-            </span></b
-          >
+          <p>
+            <b
+              ><span v-if="model == 'Director Interino'" class="text-small">
+                ({{ addInfo.directoMunicipal_interino_funcao }})
+              </span></b
+            >
+          </p>
         </div>
       </div>
     </div>
@@ -289,5 +291,8 @@ export default {
 }
 p {
   margin-top: -8px !important;
+}
+.text-small {
+  font-size: small;
 }
 </style>
