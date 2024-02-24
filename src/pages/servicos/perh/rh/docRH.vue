@@ -231,7 +231,7 @@
                     outlined
                     dense
                     v-model="addInfo.chef_PERH"
-                    label="Informe a função do Director Municipal Interino"
+                    label="Informe o nome do Chefe de secção"
                     class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
                     v-if="model2 == 'Chefe da Secção do P.E.R.H'"
                   />

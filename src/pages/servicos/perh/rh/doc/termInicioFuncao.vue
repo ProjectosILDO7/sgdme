@@ -37,24 +37,29 @@
           {{ item[0].nome }}, filh<span v-if="item[0].genero == 'Masculino'"
             >o</span
           ><span v-if="item[0].genero == 'Femenino'">a</span> de
-          {{ item[0].nome_pai }} e de {{ item[0].nome_mae }}, natural de
-          {{ item[0].municipio }} comuna de {{ item[0].comuna }}, Município de
-          {{ item[0].municipio }}, Província de {{ item[0].provincia }},
-          nascid<span v-if="item[0].genero == 'Femenino'">a</span
+          {{ item[0].nome_pai }} e de {{ item[0].nome_mae }}, natural
+          {{ artigoMunicipio }} {{ item[0].municipio }} comuna
+          {{ artigoComuna }} {{ item[0].comuna }}, Município
+          {{ artigoMunicipio }} {{ item[0].municipio }}, Província
+          {{ artigoProvincia }} {{ item[0].provincia }}, nascid<span
+            v-if="item[0].genero == 'Femenino'"
+            >a</span
           ><span v-if="item[0].genero == 'Masculino'">o</span> aos
-          {{ item[0].data_nascimento }}, portadora do B.I. nº
-          {{ item[0].num_bilhete }}, emitido pelo sector de Identificação Civil
-          de Luanda aos {{ item[0].data_emissao }}, habilitada com
-          {{ item[0].habilitacao }}, feita na {{ item[0].instituto_formacao }}.
+          {{ dataNascimento }}, portadora do B.I. nº {{ item[0].num_bilhete }},
+          emitido pelo sector de Identificação Civil de Luanda aos
+          {{ dataEmissao }}, habilitad<span v-if="item[0].genero == 'Masculino'"
+            >o</span
+          ><span v-if="item[0].genero == 'Femenino'">a</span> com
+          {{ artigoComHabiltacao }}, feita na {{ item[0].instituto_formacao }}.
           A fim de
           <span v-if="addInfo.tipoTermo == ''">
             iniciar as suas funções como docente com a categoria de
             {{ item[0].categorias.categoria }} cargo para qual foi contratado,
-            dia {{ item[0].data_inicio_funcao }}</span
+            dia {{ dataInicioFuncao }}</span
           ><spna v-else
             >reconstituir o seu termo de inicio de funções como docente, com a
             categoria de {{ item[0].categorias.categoria }}, com inicio de
-            funções a {{ item[0].data_inicio_funcao }}.</spna
+            funções a {{ dataInicioFuncao }}.</spna
           >
         </div>
 
@@ -65,6 +70,11 @@
           quanto nele intervêm.
         </div>
 
+        <div class="col-12" v-if="addInfo.tipoTermo != ''">
+          <br />
+          <br />
+          Actualizado na Direcção Municipal de Educação, aos {{ data }}.
+        </div>
         <div class="col-12 text-center" style="line-height: 1.5">
           <br />
           <br />
@@ -117,7 +127,7 @@
           <br />
           <b
             ><span v-if="model == 'Director Municipal'">
-              Chefe da Secção do P.E.R.H
+              O Director Municipal
             </span></b
           ><b
             ><span v-if="model == 'Director Interino'">
@@ -154,6 +164,7 @@ import useApi from "src/composible/userApi";
 import { useQuasar } from "quasar";
 import usenotification from "src/composible/useNotify";
 import { document } from "postcss";
+import moment from "moment";
 export default {
   props: {
     item: {
@@ -185,6 +196,22 @@ export default {
     const $q = useQuasar();
     const { getById, getFuncionariosWithCategoriasAndEscolas } = useApi();
     const dados = ref([]);
+    const artigoComuna = ref("");
+    const artigoMunicipio = ref("");
+    const artigoProvincia = ref("");
+    const dataNascimento = ref("");
+    const dataEmissao = ref("");
+    const dataInicioFuncao = ref("");
+    const artigoComHabiltacao = ref("");
+
+    // Expressão regular para verificar se a última palavra termina em "a", "ão" ou "ões"
+    const terminaEmAOrao = /(\b\w+a\b|\b\w+ão\b|\b\w+ões\b)$/;
+
+    // Expressão regular para verificar se a última palavra termina em "o" ou "os"
+    const terminaEmOuOs = /(\b\w+o\b|\b\w+os\b|\b\w+ei\b)$/;
+
+    // Expressão regular para verificar se a última palavra termina em "e" ou "es"
+    const terminaEmEouEs = /(\b\w+e\b|\b\w+es\b)$/;
 
     const gerarPDF = () => {
       $q.loading.show();
@@ -254,6 +281,89 @@ export default {
     onMounted(() => {
       carregarFuncionario();
       gerarPDF();
+
+      props.item[0].data_nascimento;
+      moment.locale("pt-br", {
+        months: [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro",
+        ],
+      });
+      dataNascimento.value = moment(props.item[0].data_nascimento).format(
+        "D [de] MMMM [de] YYYY"
+      );
+      dataEmissao.value = moment(props.item[0].data_emissao).format(
+        "D [de] MMMM [de] YYYY"
+      );
+      dataInicioFuncao.value = moment(props.item[0].data_inicio_funcao).format(
+        "D [de] MMMM [de] YYYY"
+      );
+
+      if (terminaEmAOrao.test(props.item[0].comuna)) {
+        // Usar o artigo "da"
+        artigoComuna.value = "da";
+        console.log(props.item[0].comuna);
+      } else if (terminaEmOuOs.test(props.item[0].comuna)) {
+        // Usar o artigo "do"
+        artigoComuna.value = "do";
+      } else if (terminaEmEouEs.test(props.item[0].comuna)) {
+        // Usar o artigo "de"
+        artigoComuna.value = "de";
+      } else {
+        // Lógica para outro caso, se necessário
+      }
+
+      if (terminaEmAOrao.test(props.item[0].municipio)) {
+        // Usar o artigo "da"
+        artigoMunicipio.value = "da";
+      } else if (terminaEmOuOs.test(props.item[0].municipio)) {
+        // Usar o artigo "do"
+        artigoMunicipio.value = "do";
+      } else if (terminaEmEouEs.test(props.item[0].municipio)) {
+        // Usar o artigo "de"
+        artigoMunicipio.value = "de";
+      } else {
+        // Lógica para outro caso, se necessário
+      }
+
+      if (terminaEmAOrao.test(props.item[0].provincia)) {
+        // Usar o artigo "da"
+        artigoProvincia.value = "da";
+      } else if (terminaEmOuOs.test(props.item[0].provincia)) {
+        // Usar o artigo "do"
+        artigoProvincia.value = "do";
+      } else if (terminaEmEouEs.test(props.item[0].provincia)) {
+        // Usar o artigo "de"
+        artigoProvincia.value = "de";
+      } else {
+        // Lógica para outro caso, se necessário
+      }
+
+      if (
+        props.item[0].habilitacao == "licenciada" ||
+        props.item[0].habilitacao == "licenciado"
+      ) {
+        artigoComHabiltacao.value = "a licenciatura";
+      } else {
+        const terminaEmO = /(\b\w+o\b)$/;
+        const terminaEmE = /(\b\w+e\b)$/;
+        if (terminaEmO.test(props.item[0].habilitacao)) {
+          artigoComHabiltacao.value = "o " + props.item[0].habilitacao;
+        }
+        if (terminaEmE.test(props.item[0].habilitacao)) {
+          artigoComHabiltacao.value = "a " + props.item[0].habilitacao;
+        }
+      }
     });
 
     const idFuncionario = computed(() => {
@@ -278,6 +388,13 @@ export default {
     return {
       pdfSrc,
       gerarPDF,
+      dataNascimento,
+      dataEmissao,
+      dataInicioFuncao,
+      artigoComuna,
+      artigoMunicipio,
+      artigoProvincia,
+      artigoComHabiltacao,
     };
   },
 };
