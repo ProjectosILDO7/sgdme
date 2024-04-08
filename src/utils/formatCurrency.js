@@ -1,9 +1,11 @@
 const formatCurrency = (val) => {
-  const formatter = new Intl.NumberFormat("pt-BR", {
+  const formatter = new Intl.NumberFormat("de-DE", {
     style: "currency",
     currency: "AOA",
   }).format(val);
-  return formatter;
+
+  // Remove o símbolo da moeda do resultado
+  return formatter.replace(/[^\d.-]+$/, "");
 };
 
 export { formatCurrency };

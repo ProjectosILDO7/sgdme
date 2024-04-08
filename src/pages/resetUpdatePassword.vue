@@ -6,6 +6,7 @@
           <p class="col-12 text-h5 text-center q-mt-lg">Redefinição de senha</p>
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-sm">
             <q-input
+              outlined
               v-model="password"
               label="Senha"
               class="col-12"
@@ -16,14 +17,17 @@
                   (val && val.length >= 6) ||
                   'Porfavor digite a sua nova senha',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-key-chain" />
+              </template>
+            </q-input>
 
             <q-btn
               type="submit"
               label="Enviar nova senha"
               class="full-width q-mt-lg"
-              glossy
-              color="purple"
+              color="primary"
               no-caps
               icon="lock"
             />
@@ -33,7 +37,7 @@
               flat
               label="Esqueci minha senha"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
             <q-btn
@@ -41,7 +45,7 @@
               flat
               label="Criar uma conta"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
           </div>

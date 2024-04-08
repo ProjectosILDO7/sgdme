@@ -97,10 +97,37 @@ const routes = [
         component: () => import("pages/servicos/perh/rh/docRH.vue"),
       },
       {
-        path: "/docPrint/:id?",
+        path: "/docPrint/:dados?/:addInfo?/:model2?/:model?",
         name: "docPrint",
         component: () =>
           import("pages/servicos/perh/rh/doc/termInicioFuncao.vue"),
+      },
+      {
+        path: "/docPrint2/:dados?/:addInfo?/:model2?/:model?",
+        name: "docPrint2",
+        component: () =>
+          import("pages/servicos/perh/rh/doc/guiaDeColocacao.vue"),
+      },
+      {
+        path: "/docPrintDeclaracao/:dados?/:addInfo?/:model2?/:model?",
+        name: "docPrintDeclaracao",
+        component: () =>
+          import(
+            "pages/servicos/perh/rh/secretaria/d-servico/declaracao-servico-print.vue"
+          ),
+      },
+      {
+        path: "sec-geral",
+        name: "sec-geral",
+        component: () =>
+          import("pages/servicos/perh/rh/secretaria/secGeral.vue"),
+      },
+
+      {
+        path: "dServico",
+        name: "dservico",
+        component: () =>
+          import("pages/servicos/perh/rh/secretaria/d-servico/dServico.vue"),
       },
     ],
     meta: { requiresAuth: true },

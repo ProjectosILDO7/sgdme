@@ -10,6 +10,7 @@
               E-mail de seguida inviarémos um link de redefinição da sua senha
             </p>
             <q-input
+              outlined
               v-model="form.email"
               label="E-mail"
               class="col-12"
@@ -18,15 +19,18 @@
                 (val) =>
                   (val && val.length > 0) || 'Porfavor digite seu e-mail',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-email" />
+              </template>
+            </q-input>
 
             <q-btn
               icon="send"
               type="submit"
               label="Enviar"
               class="full-width q-mt-lg"
-              glossy
-              color="purple"
+              color="primary"
               no-caps
             />
 
@@ -35,7 +39,7 @@
               flat
               label="Já tenho uma conta"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
             <q-btn
@@ -43,7 +47,7 @@
               flat
               label="Criar uma conta"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
           </div>

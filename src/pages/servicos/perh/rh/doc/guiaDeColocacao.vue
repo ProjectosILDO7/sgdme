@@ -9,114 +9,65 @@
       <div id="elemento-para-pdf" class="StyleFontDocument alignTextJustify">
         <div class="row" style="line-height: 1.5">
           <div class="col-12 text-center">República de Angola</div>
-          <div class="col-12 text-center">Governo Provincial da Huíla</div>
           <div class="col-12 text-center">
-            Administração Municipal do Chipindo
+            Governo Provincial {{ artigoQueAntecedeDonomeDaProvincia }}
+            {{ addInfo.provincia }}
           </div>
-          <div class="col-12 text-center">Direcção Municipal da Educação</div>
           <div class="col-12 text-center">
-            <p>_________________________________________________</p>
-            <p>
-              <b style="font-size: 11px">(GABINETE DO DIRECTOR MUNICIPAL)</b>
-            </p>
-            <br />
-            <b>TERMO DE INÍCIO DE FUNÇÕES{{ addInfo.tipoTermo }}</b>
-            <br />
-            <br />
+            Administração Municipal do {{ addInfo.municipio }}
+          </div>
+          <div class="col-12 text-center">
+            <b>Direcção Municipal da Educação</b>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-12" style="line-height: 1.5">
-            No dia {{ data }}, compareceu no Gabinete do Senhor
-            {{ addInfo.directoMunicipal }}, Director Municipal da Educação,
-            <span v-if="dados[0].genero == 'Masculino'">o senhor </span
-            ><span v-if="dados[0].genero == 'Femenino'">a senhora </span>
-            <span v-if="dados[0].genero == 'Femenino'">a </span>
-            <b>{{ dados[0].nome }}</b
-            >, <span v-if="dados[0].genero == 'Masculino'">filho</span
-            ><span v-if="dados[0].genero == 'Femenino'">filha</span> de
-            {{ dados[0].nome_pai }} e de {{ dados[0].nome_mae }}, natural
-            {{ artigoMunicipio }} {{ dados[0].municipio }} comuna
-            {{ artigoComuna }} {{ dados[0].comuna }}, Município
-            {{ artigoMunicipio }} {{ dados[0].municipio }}, Província
-            {{ artigoProvincia }} {{ dados[0].provincia }}, nascid<span
-              v-if="dados[0].genero == 'Femenino'"
-              >a</span
-            ><span v-if="dados[0].genero == 'Masculino'">o</span> aos,
-            {{ dataNascimento }}, portadora do B.I. nº
-            {{ dados[0].num_bilhete }}, emitido pelo sector de Identificação
-            Civil de Luanda aos {{ dataEmissao }}, habilitad<span
-              v-if="dados[0].genero == 'Masculino'"
-              >o</span
-            ><span v-if="dados[0].genero == 'Femenino'">a</span> com
-            {{ artigoComHabiltacao }}, feita {{ artigoInstituicao }}
-            {{ dados[0].instituto_formacao }}. A fim de
-            <span v-if="addInfo.tipoTermo == ''">
-              iniciar as suas funções como docente com a categoria de
-              {{ dados[0].categorias.categoria }} cargo para qual foi
-              contratado, dia {{ dataInicioFuncao }}</span
-            ><span v-else
-              >reconstituir o seu termo de inicio de funções como docente, com a
-              categoria de {{ dados[0].categorias.categoria }}, com inicio de
-              funções a {{ dataInicioFuncao }}.</span
-            >
+          <div class="col-12 text-center">
+            <br />
+            <br />
+            <b>GUIA DE COLOCAÇÃO Nº ____/{{ dateNowYear }}</b>
           </div>
 
           <div class="col-12" style="line-height: 1.5">
             <br />
-            Não havendo mais nada a tratar, lavrou-se o presente
-            <b>TERMO DE INÍCIO DE FUNÇÕES</b>, que vai ser assinado por todos
-            quanto nele intervêm.
+            Por esta Direcção, se faz constar as autoridades a quem o
+            conhecimento desta competir que, segue desta Direcção Municipal da
+            Educacção, para efeito de colocação {{ artigoQantecedEscola }}
+            {{ addInfo.escola_id }}
+            <span v-if="dados[0].genero == 'Masculino'">o senhor</span>
+            <span v-else>a senhora</span> <b>{{ dados[0].nome }}</b
+            >, agente nº {{ dados[0].num_agente }},
+            {{ dados[0].categorias.categoria }}.
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
           </div>
 
-          <div class="col-12" v-if="addInfo.tipoTermo != ''">
+          <div class="col-12" style="line-height: 1.5">
             <br />
             <br />
-            Actualizado na Direcção Municipal de Educação, {{ data }}.
+            E, para que se lhe não imponham impedimento, mandei passar a
+            presente guia, que vai por mim assinada e autenticada com o carimbo
+            a óleo em uso nesta Direcção Municipal.
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
+            <br />
+            ------------------------------------------------------------------------------------------------------------------------
           </div>
+
+          <div class="col-12 text-center">
+            <br />
+            <br />
+            DIRECÇÃO MUNICIPAL DA EDUCAÇÃO NO {{ addInfo.municipio }},
+            {{ data }}.
+          </div>
+
           <div class="col-12 text-center" style="line-height: 1.5">
-            <br />
-            <br />
-            <br />
-            <b
-              ><span v-if="dados[0].genero == 'Masculino'">O</span
-              ><span v-if="dados[0].genero == 'Femenino'">A</span> Docente</b
-            >
-            <p>______________________________</p>
-            {{ dados[0].nome }}
-          </div>
-
-          <div class="col-6 text-center" style="line-height: 1.5">
-            <br />
-            <br />
-            <br />
-            <b
-              ><span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
-                Chefe da Secção do P.E.R.H
-              </span></b
-            ><b
-              ><span v-if="model2 == 'Interno(a)'">
-                Na Ausencia do Chefe de Sec. do P.E.R.H
-              </span></b
-            >
-            <p>________________________________</p>
-            <span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
-              {{ addInfo.chef_PERH }}
-            </span>
-            <b
-              ><span v-if="model2 == 'Interno(a)'">
-                {{ addInfo.chef_PERH_interino }}
-              </span></b
-            >
-            <b
-              ><span v-if="model2 == 'Interno(a)'" class="text-small">
-                ({{ addInfo.chef_PERH_interino_funcao }})
-              </span></b
-            >
-          </div>
-
-          <div class="col-6 text-center" style="line-height: 1.5">
             <br />
             <br />
             <br />
@@ -126,7 +77,7 @@
               </span></b
             ><b
               ><span v-if="model == 'Director Interino'">
-                Na Ausencia do Director Municipal
+                Na ausencia do Director Municipal
               </span></b
             >
             <p>________________________________</p>
@@ -179,9 +130,18 @@ export default {
     const artigoComHabiltacao = ref("");
     const artigoInstituicao = ref("");
     const data = ref(null);
-
+    const dateNowYear = new Date().toJSON().slice(0, 4);
+    const artigoQantecedEscola = ref("");
+    const artigoQueAntecedeDonomeDaProvincia = ref();
     // Expressão regular para verificar se a última palavra termina em "a", "ão" ou "ões"
     const terminaEmAOrao = /(\b\w+a\b|\b\w+ão\b|\b\w+ões\b)$/;
+    const artigoDaInstituicaoComessaComE = /^[E]/i;
+
+    const provinciaComessaComH = /^[H]/i;
+    const provinciaComessaComBeBCKHNMUZ = /^[BCKHNMUZ]/i;
+    const provinciaTerminacomComA = /(\b\w+a\b)/i;
+    const provinciaTerminacomComO = /(\b\w+o\b)/i;
+    const provinciaTerminacomComEL = /(\b\w+e\b|\b\w+l)/i;
 
     // Expressão regular para verificar se a última palavra termina em "o" ou "os"
     const terminaEmOuOs = /(\b\w+o\b|\b\w+os\b|\b\w+ei\b)$/;
@@ -322,6 +282,36 @@ export default {
         // Lógica para outro caso, se necessário
       }
 
+      if (
+        provinciaComessaComH.test(addInfo.value.provincia) &&
+        provinciaTerminacomComA.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "da";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComA.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComO.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "do";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComEL.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      } else {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      }
+
+      if (artigoDaInstituicaoComessaComE.test(addInfo.value.escola_id)) {
+        artigoQantecedEscola.value = "na";
+      } else {
+        artigoQantecedEscola.value = "no";
+      }
+
       if (terminaEmAOrao.test(dados.value[0].municipio)) {
         // Usar o artigo "da"
         artigoMunicipio.value = "da";
@@ -386,6 +376,9 @@ export default {
       data,
       model2,
       model,
+      dateNowYear,
+      artigoQantecedEscola,
+      artigoQueAntecedeDonomeDaProvincia,
     };
   },
 };
@@ -398,7 +391,7 @@ export default {
   text-align: justify;
 }
 p {
-  margin-top: -8px !important;
+  margin-top: -7px !important;
 }
 .text-small {
   font-size: small;

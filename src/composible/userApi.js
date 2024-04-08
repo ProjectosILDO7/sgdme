@@ -117,7 +117,6 @@ export default function userApi() {
 
   const getBrand = async () => {
     const id = user?.value?.id;
-    console.log(id);
     if (id) {
       $q.loading.show();
       const { data, error } = await supabase
@@ -135,11 +134,56 @@ export default function userApi() {
     }
   };
 
+  const totalFuncionatioPorGenero = async (tabela) => {
+    const { data, error } = await supabase.from(tabela).select("genero");
+
+    if (error) throw error;
+    const counts = {};
+    data.forEach((row) => {
+      counts[row.genero] = (counts[row.genero] || 0) + 1;
+    });
+    // Formata os dados para o formato necessário para o Vue-Google-Charts
+    const newData = [["Gênero", "Total de Funcionários"]];
+    Object.keys(counts).forEach((genero) => {
+      newData.push([genero, counts[genero]]);
+    });
+
+    // Atualiza os dados do gráfico
+    return newData;
+  };
+
+  const totalFuncionatioPornivel = async (tabela) => {
+    const { data, error } = await supabase
+      .from(tabela)
+      .select("nivelAcademico");
+
+    if (error) throw error;
+    const counts = {};
+
+    data.forEach((row) => {
+      counts[row.nivelAcademico] = (counts[row.nivelAcademico] || 0) + 1;
+    });
+
+    const newDataNivel = [["Nivel", "Total"]];
+    Object.keys(counts).forEach((nivelAcademico) => {
+      newDataNivel.push([nivelAcademico, counts[nivelAcademico]]);
+    });
+    console.log(newDataNivel);
+    return newDataNivel;
+  };
+
+  const graficos = async (table) => {
+    const { data, error } = await supabase.from(table).select("*");
+    if (error) throw error;
+    return data;
+  };
+
   return {
     list,
     getById,
     post,
     uploadImage,
+    graficos,
     update,
     remove,
     fileName,
@@ -148,5 +192,7 @@ export default function userApi() {
     getFuncionariosWithCategoriasAndEscolas,
     getFuncionarioWithCategoriasAndEscolas,
     fetchCount,
+    totalFuncionatioPorGenero,
+    totalFuncionatioPornivel,
   };
 }

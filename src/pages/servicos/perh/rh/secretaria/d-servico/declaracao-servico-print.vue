@@ -9,114 +9,85 @@
       <div id="elemento-para-pdf" class="StyleFontDocument alignTextJustify">
         <div class="row" style="line-height: 1.5">
           <div class="col-12 text-center">República de Angola</div>
-          <div class="col-12 text-center">Governo Provincial da Huíla</div>
           <div class="col-12 text-center">
-            Administração Municipal do Chipindo
+            Governo Provincial {{ artigoQueAntecedeDonomeDaProvincia }}
+            {{ addInfo.provincia }}
           </div>
-          <div class="col-12 text-center">Direcção Municipal da Educação</div>
           <div class="col-12 text-center">
-            <p>_________________________________________________</p>
-            <p>
-              <b style="font-size: 11px">(GABINETE DO DIRECTOR MUNICIPAL)</b>
-            </p>
-            <br />
-            <b>TERMO DE INÍCIO DE FUNÇÕES{{ addInfo.tipoTermo }}</b>
-            <br />
-            <br />
+            Administração Municipal do {{ addInfo.municipio }}
+          </div>
+          <div class="col-12 text-center">
+            <b>Direcção Municipal da Educação</b>
+          </div>
+          <div class="col-12 text-center">
+            <b><q-separator size="md" color="black" /></b>
           </div>
         </div>
 
         <div class="row">
+          <div class="col-12 text-center">
+            <br />
+            <br />
+            <b>DECLARAÇÃO DE SERVIÇO Nº ____/{{ dateNowYear }}</b>
+          </div>
+
           <div class="col-12" style="line-height: 1.5">
-            No dia {{ data }}, compareceu no Gabinete do Senhor
-            {{ addInfo.directoMunicipal }}, Director Municipal da Educação,
-            <span v-if="dados[0].genero == 'Masculino'">o senhor </span
-            ><span v-if="dados[0].genero == 'Femenino'">a senhora </span>
-            <span v-if="dados[0].genero == 'Femenino'">a </span>
-            <b>{{ dados[0].nome }}</b
-            >, <span v-if="dados[0].genero == 'Masculino'">filho</span
-            ><span v-if="dados[0].genero == 'Femenino'">filha</span> de
-            {{ dados[0].nome_pai }} e de {{ dados[0].nome_mae }}, natural
-            {{ artigoMunicipio }} {{ dados[0].municipio }} comuna
-            {{ artigoComuna }} {{ dados[0].comuna }}, Município
+            <br />
+            <span class="tab">
+              Para fins julgados convenientes, a Direcção Municipal da Educação,
+              declara que,</span
+            >
+            <span v-if="dados[0].genero == 'Masculino'">o senhor</span>
+            <span v-else>a senhora</span>, <b>{{ dados[0].nome }}</b>
+            <span v-if="dados[0].genero == 'Masculino'"> filho </span>
+            <span v-else> filha </span> de {{ dados[0].nome_pai }} e de
+            {{ dados[0].nome_mae }},
+            <span v-if="dados[0].genero == 'Masculino'">nascido</span>
+            <span v-else>nascida</span> aos {{ dataNascimento }}, natural
             {{ artigoMunicipio }} {{ dados[0].municipio }}, Província
-            {{ artigoProvincia }} {{ dados[0].provincia }}, nascid<span
-              v-if="dados[0].genero == 'Femenino'"
-              >a</span
-            ><span v-if="dados[0].genero == 'Masculino'">o</span> aos,
-            {{ dataNascimento }}, portadora do B.I. nº
-            {{ dados[0].num_bilhete }}, emitido pelo sector de Identificação
-            Civil de Luanda aos {{ dataEmissao }}, habilitad<span
-              v-if="dados[0].genero == 'Masculino'"
-              >o</span
-            ><span v-if="dados[0].genero == 'Femenino'">a</span> com
-            {{ artigoComHabiltacao }}, feita {{ artigoInstituicao }}
-            {{ dados[0].instituto_formacao }}. A fim de
-            <span v-if="addInfo.tipoTermo == ''">
-              iniciar as suas funções como docente com a categoria de
-              {{ dados[0].categorias.categoria }} cargo para qual foi
-              contratado, dia {{ dataInicioFuncao }}</span
-            ><span v-else
-              >reconstituir o seu termo de inicio de funções como docente, com a
-              categoria de {{ dados[0].categorias.categoria }}, com inicio de
-              funções a {{ dataInicioFuncao }}.</span
-            >
+            {{ artigoProvincia }} {{ dados[0].provincia }}, portador do B.I. nº
+            {{ dados[0].num_bilhete }}, emitido pelo Arquivo de Identificação
+            Nacional, aos {{ dataEmissao }}.
+
+            <br />
+            <span class="tab">É</span>
+            <span v-if="dados[0].genero == 'Masculino'"> funcionário</span>
+            <span v-else> funcionária</span> em efectivo serviço, colocado neste
+            Município com o nº de agente {{ dados[0].num_agente }},
+            desempenhando as funções de {{ dados[0].categorias.categoria }},
+            {{ artigoInstituicao }} {{ dados[0].escolas.nome }}, auferindo um
+            rendimento mensal cerca de
+            {{ formatCurrency(dados[0].salario_base) }}
+            ({{ dados[0].salario_base_extenso }}) na conta nº
+            {{ addInfo.conta_bancaria }}.
+            <br />
+            <span class="tab">A</span> presente Declaração destina-se para
+            efeito de:
+            <b>{{ addInfo.efeito_da_declaracao }}.</b>
+            <br />
           </div>
 
           <div class="col-12" style="line-height: 1.5">
             <br />
-            Não havendo mais nada a tratar, lavrou-se o presente
-            <b>TERMO DE INÍCIO DE FUNÇÕES</b>, que vai ser assinado por todos
-            quanto nele intervêm.
+            <span class="tab">OBS.:</span> Esta Declaração tem validade de
+            noventa (90) dias.
+            <br />
+            <br />
+
+            <span class="tab">E</span> para que não lhe ponham qualquer
+            impedimento, mandei passar a presente Declaração que vai por mim
+            devidamente assinada e autenticada com o carimbo a óleo em uso nesta
+            Instituição.
           </div>
 
-          <div class="col-12" v-if="addInfo.tipoTermo != ''">
+          <div class="col-12 text-center">
             <br />
             <br />
-            Actualizado na Direcção Municipal de Educação, {{ data }}.
+            DIRECÇÃO MUNICIPAL DA EDUCAÇÃO NO {{ addInfo.municipio }},
+            {{ data }}.
           </div>
+
           <div class="col-12 text-center" style="line-height: 1.5">
-            <br />
-            <br />
-            <br />
-            <b
-              ><span v-if="dados[0].genero == 'Masculino'">O</span
-              ><span v-if="dados[0].genero == 'Femenino'">A</span> Docente</b
-            >
-            <p>______________________________</p>
-            {{ dados[0].nome }}
-          </div>
-
-          <div class="col-6 text-center" style="line-height: 1.5">
-            <br />
-            <br />
-            <br />
-            <b
-              ><span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
-                Chefe da Secção do P.E.R.H
-              </span></b
-            ><b
-              ><span v-if="model2 == 'Interno(a)'">
-                Na Ausencia do Chefe de Sec. do P.E.R.H
-              </span></b
-            >
-            <p>________________________________</p>
-            <span v-if="model2 == 'Chefe da Secção do P.E.R.H'">
-              {{ addInfo.chef_PERH }}
-            </span>
-            <b
-              ><span v-if="model2 == 'Interno(a)'">
-                {{ addInfo.chef_PERH_interino }}
-              </span></b
-            >
-            <b
-              ><span v-if="model2 == 'Interno(a)'" class="text-small">
-                ({{ addInfo.chef_PERH_interino_funcao }})
-              </span></b
-            >
-          </div>
-
-          <div class="col-6 text-center" style="line-height: 1.5">
             <br />
             <br />
             <br />
@@ -126,7 +97,7 @@
               </span></b
             ><b
               ><span v-if="model == 'Director Interino'">
-                Na Ausencia do Director Municipal
+                Na ausencia do Director Municipal
               </span></b
             >
             <p>________________________________</p>
@@ -154,21 +125,20 @@
 
 <script>
 import html2pdf from "html2pdf.js";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, inject } from "vue";
 import { useRoute } from "vue-router";
 import useApi from "src/composible/userApi";
 import { useQuasar } from "quasar";
-import usenotification from "src/composible/useNotify";
-import { document } from "postcss";
 import moment from "moment";
+import { toWordsKey } from "src/boot/num2words";
+import { formatCurrency } from "src/utils/formatCurrency";
+
 export default {
   setup() {
-    const tabela = "funcionarios";
     const pdfSrc = ref(null);
     const route = useRoute();
-    const docRef = ref();
+
     const $q = useQuasar();
-    const { getById, getFuncionarioWithCategoriasAndEscolas } = useApi();
     //const dados = ref([]);
     const artigoComuna = ref("");
     const artigoMunicipio = ref("");
@@ -179,9 +149,20 @@ export default {
     const artigoComHabiltacao = ref("");
     const artigoInstituicao = ref("");
     const data = ref(null);
+    const dateNowYear = new Date().toJSON().slice(0, 4);
+    const artigoQantecedEscola = ref("");
+    const artigoQueAntecedeDonomeDaProvincia = ref();
 
+    const salarioPorExtenso = ref("");
     // Expressão regular para verificar se a última palavra termina em "a", "ão" ou "ões"
     const terminaEmAOrao = /(\b\w+a\b|\b\w+ão\b|\b\w+ões\b)$/;
+    const artigoDaInstituicaoComessaComE = /^[E]/i;
+
+    const provinciaComessaComH = /^[H]/i;
+    const provinciaComessaComBeBCKHNMUZ = /^[BCKHNMUZ]/i;
+    const provinciaTerminacomComA = /(\b\w+a\b)/i;
+    const provinciaTerminacomComO = /(\b\w+o\b)/i;
+    const provinciaTerminacomComEL = /(\b\w+e\b|\b\w+l)/i;
 
     // Expressão regular para verificar se a última palavra termina em "o" ou "os"
     const terminaEmOuOs = /(\b\w+o\b|\b\w+os\b|\b\w+ei\b)$/;
@@ -276,6 +257,10 @@ export default {
       return route.params.model;
     });
 
+    const moedaPorExtenso = computed(() => {
+      return converterParaExtenso(dados.value[0].salario_base);
+    });
+
     onMounted(() => {
       gerarPDF();
 
@@ -320,6 +305,38 @@ export default {
         artigoComuna.value = "de";
       } else {
         // Lógica para outro caso, se necessário
+      }
+
+      //salarioPorExtenso.value = toWords.convert(dados.value[0].salario_base);
+
+      if (
+        provinciaComessaComH.test(addInfo.value.provincia) &&
+        provinciaTerminacomComA.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "da";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComA.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComO.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "do";
+      } else if (
+        provinciaComessaComBeBCKHNMUZ.test(addInfo.value.provincia) &&
+        provinciaTerminacomComEL.test(addInfo.value.provincia)
+      ) {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      } else {
+        artigoQueAntecedeDonomeDaProvincia.value = "de";
+      }
+
+      if (artigoDaInstituicaoComessaComE.test(addInfo.value.escola_id)) {
+        artigoQantecedEscola.value = "na";
+      } else {
+        artigoQantecedEscola.value = "no";
       }
 
       if (terminaEmAOrao.test(dados.value[0].municipio)) {
@@ -370,7 +387,9 @@ export default {
         }
       }
     });
+
     return {
+      salarioPorExtenso,
       pdfSrc,
       gerarPDF,
       dataNascimento,
@@ -386,6 +405,11 @@ export default {
       data,
       model2,
       model,
+      dateNowYear,
+      artigoQantecedEscola,
+      artigoQueAntecedeDonomeDaProvincia,
+      formatCurrency,
+      moedaPorExtenso,
     };
   },
 };
@@ -398,9 +422,12 @@ export default {
   text-align: justify;
 }
 p {
-  margin-top: -8px !important;
+  margin-top: -7px !important;
 }
 .text-small {
   font-size: small;
+}
+.tab {
+  margin-left: 40px;
 }
 </style>

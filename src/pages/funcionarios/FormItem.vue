@@ -36,28 +36,21 @@
               v-model="form.nome"
               label="Nome completo"
               class="col-12"
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Porfavor digite o nome da escola',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor digite o nome da escola']"
               v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.nome_pai"
               label="Nome do pai"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Porfavor o nome do pai',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor o nome do pai']"
               v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.nome_mae"
               label="Nome da maê"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Porfavor o nome da maê',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor o nome da maê']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -66,8 +59,7 @@
               label="Nº do bilhete"
               class="col-12"
               :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Porfavor informe o nº do Bilhete',
+                (val) => !!val || 'Porfavor informe o nº do Bilhete',
                 (val) =>
                   (val && val.length == 14) ||
                   'O nº do Bilhete tem de ter no mínimo 14 caracteres',
@@ -80,11 +72,7 @@
               label="Data de emissão"
               class="col-12"
               type="date"
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) ||
-                  'Porfavor informe a data de emissão',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor informe a data de emissão']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -94,9 +82,7 @@
               class="col-12"
               type="date"
               :rules="[
-                (val) =>
-                  (val && val.length > 0) ||
-                  'Porfavor informe a data de caducidade',
+                (val) => !!val || 'Porfavor informe a data de caducidade',
               ]"
               v-bind="{ ...inputConfig }"
             />
@@ -106,9 +92,7 @@
               class="col-12"
               type="date"
               :rules="[
-                (val) =>
-                  (val && val.length > 0) ||
-                  'Porfavor informe a data de nascimento',
+                (val) => !!val || 'Porfavor informe a data de nascimento',
               ]"
               v-bind="{ ...inputConfig }"
             />
@@ -118,9 +102,18 @@
               option-label="name"
               label="Selecione o gênero"
               :rules="[
+                (val) => !!val || 'Porfavor informe o gênero do funcionário',
+              ]"
+              v-bind="{ ...inputConfig }"
+            />
+            <q-select
+              v-model="form.nivelAcademico"
+              :options="nivelAcademico"
+              option-label="name"
+              label="Selecione o nível acadêmico"
+              :rules="[
                 (val) =>
-                  (val && val.length > 0) ||
-                  'Porfavor informe o gênero do funcionário',
+                  !!val || 'Porfavor informe o nível acadêmico do funcionário',
               ]"
               v-bind="{ ...inputConfig }"
             />
@@ -131,9 +124,7 @@
               class="col-12"
               type="date"
               :rules="[
-                (val) =>
-                  (val && val.length > 0) ||
-                  'Porfavor informe a data de início de função',
+                (val) => !!val || 'Porfavor informe a data de início de função',
               ]"
               v-bind="{ ...inputConfig }"
             />
@@ -154,9 +145,7 @@
               v-model="form.provincia"
               label="Provincia"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe a província',
-              ]"
+              :rules="[(val) => !!val || 'Informe a província']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -164,9 +153,7 @@
               v-model="form.municipio"
               label="Município"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe o município',
-              ]"
+              :rules="[(val) => !!val || 'Informe o município']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -175,7 +162,7 @@
               label="Comuna"
               class="col-12"
               lazy-rules
-              :rules="[(val) => (val && val.length > 0) || 'Informe a Comuna']"
+              :rules="[(val) => !!val || 'Informe a Comuna']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -183,9 +170,7 @@
               v-model="form.localidade"
               label="Localidade"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe a localidade',
-              ]"
+              :rules="[(val) => !!val || 'Informe a localidade']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -197,9 +182,7 @@
               map-options
               emit-value
               label="Selecione uma categoria"
-              :rules="[
-                (val) => (val && !!val) || 'Porfavor Selecione uma categoria',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor Selecione uma categoria']"
               v-bind="{ ...inputConfig }"
             />
 
@@ -208,19 +191,47 @@
               v-model="form.salario_base"
               label="Vencimento Base"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe o salário base',
-              ]"
+              :rules="[(val) => !!val || 'Informe o salário base']"
               v-bind="{ ...inputConfig }"
+            >
+              <template v-slot:append>
+                <span class="text-xxs text-primary meu-tamanho">{{
+                  formatCurrency(form.salario_base)
+                }}</span>
+              </template>
+            </q-input>
+
+            <q-input
+              class="col-12"
+              v-bind="{ ...inputConfig }"
+              :rules="[(val) => !!val || 'Informe o salário base por extenso']"
+              v-model="form.salario_base_extenso"
+              label="Escreva o salário base por extenso"
             />
+
             <q-input
               v-model="form.salario_liquido"
               label="Vencimento Líquido"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe o salário líquido',
-              ]"
+              :rules="[(val) => !!val || 'Informe o salário líquido']"
               v-bind="{ ...inputConfig }"
+              ref="inputRef"
+            >
+              <template v-slot:append>
+                <span class="text-xxs text-primary meu-tamanho">{{
+                  formatCurrency(form.salario_liquido)
+                }}</span>
+              </template>
+            </q-input>
+
+            <q-input
+              class="col-12"
+              v-bind="{ ...inputConfig }"
+              :rules="[
+                (val) => !!val || 'Informe o salário liquido por extenso',
+              ]"
+              v-model="form.salario_liquido_extenso"
+              label="Escreva o salário líquido por extenso"
             />
 
             <q-select
@@ -231,28 +242,21 @@
               map-options
               emit-value
               label="Selecione a escola a que pertence"
-              :rules="[
-                (val) => (val && !!val) || 'Porfavor a escola a que pertence',
-              ]"
+              :rules="[(val) => !!val || 'Porfavor a escola a que pertence']"
               v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.habilitacao"
               label="Habilitação"
               class="col-12"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Informe a habilitação',
-              ]"
+              :rules="[(val) => !!val || 'Informe a habilitação']"
               v-bind="{ ...inputConfig }"
             />
             <q-input
               v-model="form.area_formacao"
               label="Área de formação"
               class="col-12"
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Informe a área de formação',
-              ]"
+              :rules="[(val) => !!val || 'Informe a área de formação']"
               v-bind="{ ...inputConfig }"
             />
             <q-input
@@ -261,8 +265,7 @@
               class="col-12"
               :rules="[
                 (val) =>
-                  (val && val.length > 0) ||
-                  'Informe o nome da instituição onde se formou',
+                  !!val || 'Informe o nome da instituição onde se formou',
               ]"
               v-bind="{ ...inputConfig }"
             />
@@ -316,20 +319,38 @@ import userApi from "src/composible/userApi";
 import { Loading, useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
 import { btnConfig, inputConfig } from "src/utils/inputVisual";
+import { formatCurrency } from "src/utils/formatCurrency";
 
 export default {
   name: "form-categoria",
+  components: {},
+
   setup() {
     const { post, getById, update, list, remove, uploadImage, fileName } =
       userApi();
-
     const { notifyError, notifySuccess } = usenotification();
     const table = "funcionarios";
     const router = useRouter();
 
+    const moneyFormatForDirective = {
+      decimal: ".",
+      thousands: ",",
+      prefix: "$ ",
+      suffix: " #",
+      precision: 2,
+      masked: false /* doesn't work with directive */,
+    };
+
     const route = useRoute();
     const $q = useQuasar();
     const options = ref(["Masculino", "Femenino"]);
+    const nivelAcademico = ref([
+      "Técnico Basico",
+      "Técnico médio",
+      "Licenciado(a)",
+      "Mestre",
+      "Phd",
+    ]);
     const categorias = ref([]);
     const escolas = ref([]);
     const image = ref([]);
@@ -356,13 +377,12 @@ export default {
       instituto_formacao: "",
       img_url: "",
       file_name: "",
-      salario_base: "",
-      salario_liquido: "",
+      salario_base: 0,
+      salario_liquido: 0,
+      nivelAcademico: "",
+      salario_base_extenso: "",
+      salario_liquido_extenso: "",
     });
-
-    watch(() => {});
-
-    onMounted(() => {});
 
     const isUpdate = computed(() => {
       return route.params.id;
@@ -439,9 +459,14 @@ export default {
       }
     };
 
+    const valorNumber = (valor) => {
+      form.value.salario_base = valor;
+    };
+
     return {
       form,
       isUpdate,
+      valorNumber,
       table,
       image,
       deletarItem,
@@ -451,6 +476,9 @@ export default {
       options,
       btnConfig,
       inputConfig,
+      nivelAcademico,
+      formatCurrency,
+      moneyFormatForDirective,
     };
   },
 };
@@ -458,5 +486,8 @@ export default {
 <style lang="css" scoped>
 .margin-bottom {
   margin-bottom: 80px !important;
+}
+.meu-tamanho {
+  font-size: 16px;
 }
 </style>

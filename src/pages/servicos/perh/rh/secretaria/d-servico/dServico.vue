@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page padding>
         <p class="text-body1">
-          Documentos: <i>Termos de Início de funções & Guias de colocações</i>
+          Documento: <i><b>Declaração de serviço</b></i>
         </p>
         <btn-back-page />
         <q-separator />
@@ -42,20 +42,11 @@
             <template v-slot:body-cell-options="props">
               <q-td :props="props" class="q-gutter-sm">
                 <q-btn
-                  dense
                   size="sm"
                   icon="mdi-file-document-outline"
-                  label="Guia de colocação"
+                  label="Declaração de serviço"
                   color="primary"
                   @click="OpenModal2(props.row.id)"
-                />
-                <q-btn
-                  dense
-                  size="sm"
-                  icon="mdi-file-document-outline"
-                  label="Termo de início de funções"
-                  color="primary"
-                  @click="OpenModal(props.row.id)"
                 />
               </q-td>
             </template>
@@ -150,124 +141,6 @@
           </q-item>
         </q-list>
 
-        <!-- Modal 1 preenchimento de termo de frequencia -->
-        <q-dialog v-model="modal">
-          <q-card style="width: 700px; max-width: 80vw">
-            <q-card-section>
-              <div class="text-h6" v-if="$q.platform.is.desktop">
-                <q-icon name="mdi-cloud-print" /> Documento:<b
-                  >TERMO DE INÍCIO DE FUNÇÕES</b
-                >
-              </div>
-              <div
-                class="text-small col-12 text-center"
-                v-if="$q.platform.is.mobile"
-              >
-                <q-icon name="mdi-cloud-print" /> Documento:
-                <p><b>TERMO DE INÍCIO DE FUNÇÕES</b></p>
-              </div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="row col text-justify">
-                <q-radio
-                  size="xs"
-                  v-model="addInfo.tipoTermo"
-                  val=""
-                  label="Novo Termo"
-                  class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
-                />
-                <q-radio
-                  size="sm"
-                  v-model="addInfo.tipoTermo"
-                  val=" - RECONSTITUIÇÃO"
-                  label="Actualizar termo"
-                  class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
-                />
-                <!-- custom size -->
-                <b class="col-12 text-center">Asinaturas</b>
-                <div class="q-gutter-sm col-12">
-                  <q-select
-                    outlined
-                    dense
-                    v-model="model"
-                    :options="options"
-                    label="Quem assinará o termo ?"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.directoMunicipal"
-                    label="Informe o nome do Director Municipal"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model == 'Director Municipal'"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.directoMunicipal_interino"
-                    label="Informe o nome do Director Municipal Interino"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model == 'Director Interino'"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.directoMunicipal_interino_funcao"
-                    label="Informe a função do Director Municipal Interino"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model == 'Director Interino'"
-                  />
-                  <q-select
-                    outlined
-                    dense
-                    v-model="model2"
-                    :options="options2"
-                    label="Integrante da assinatura"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.chef_PERH"
-                    label="Informe o nome do Chefe de secção"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model2 == 'Chefe da Secção do P.E.R.H'"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.chef_PERH_interino"
-                    label="Informe o nome do Chefe de Secção Interino"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model2 == 'Interino(a)'"
-                  />
-                  <q-input
-                    outlined
-                    dense
-                    v-model="addInfo.chef_PERH_interino_funcao"
-                    label="Informe a função do Chefe de Seccão Interino"
-                    class="col-xs-12 col-sm-12 col-md-6 col-lg-6 q-mt-sm"
-                    v-if="model2 == 'Interino(a)'"
-                  />
-                </div>
-              </div>
-            </q-card-section>
-
-            <q-card-actions align="right" class="bg-white text-teal">
-              <q-btn flat icon="mdi-close" label="Cancelar" v-close-popup />
-              <q-btn
-                flat
-                icon="mdi-cloud-print"
-                label="Documento"
-                v-close-popup
-                @click="printDoc()"
-              />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-
         <!-- Modal 2 preenchimento da guia de colocaçao -->
         <q-dialog v-model="modal2">
           <q-card style="width: 700px; max-width: 80vw">
@@ -275,14 +148,14 @@
               <q-card-section>
                 <div class="text-h6" v-if="$q.platform.is.desktop">
                   <q-icon name="mdi-cloud-print" /> Documento:
-                  <b>GUIA DE COLOCAÇÃO</b>
+                  <b>DECLARAÇÃO DE SERVIÇO</b>
                 </div>
                 <div
                   class="text-small col-12 text-center"
                   v-if="$q.platform.is.mobile"
                 >
                   <q-icon name="mdi-cloud-print" /> Documento:
-                  <p><b>GUIA DE COLOCAÇÃOs</b></p>
+                  <p><b>DECLARAÇÃO DE SERVIÇO</b></p>
                 </div>
               </q-card-section>
 
@@ -310,20 +183,28 @@
                       (val) => (val && !!val) || 'Porfavor informe o Município',
                     ]"
                   />
-                  <q-select
-                    v-model="addInfo.escola_id"
-                    :options="escolas"
-                    option-value="nome"
-                    option-label="nome"
-                    map-options
-                    emit-value
-                    label="Selecione a escola onde será colocado"
+                  <q-input
+                    class="q-mt-md col-12"
+                    label="Nº de conta bancária"
+                    dense
+                    v-bind="{ ...inputConfig }"
+                    v-model="addInfo.conta_bancaria"
                     :rules="[
                       (val) =>
-                        (val && !!val) || 'Porfavor a escola a que pertence',
+                        (val && !!val) || 'Porfavor o nº de conta bancária',
                     ]"
+                  />
+                  <q-input
+                    class="q-mt-md col-12"
+                    label="Efeito da declaração"
+                    dense
                     v-bind="{ ...inputConfig }"
-                    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 q-mt-sm"
+                    v-model="addInfo.efeito_da_declaracao"
+                    :rules="[
+                      (val) =>
+                        (val && !!val) || 'Informe o efeito desta declaração',
+                    ]"
+                    hint="A presente Declaração destina-se para efeito de:"
                   />
                   <!-- custom size -->
                   <b class="col-12 text-center">Asinaturas</b>
@@ -394,7 +275,7 @@
                   type="submit"
                   flat
                   icon="mdi-cloud-print"
-                  label="Gerar Guia de Colocação"
+                  label="Gerar declaração de serviço"
                 />
               </q-card-actions>
             </q-form>
@@ -436,14 +317,14 @@ export default {
     const options2 = ref(["Chefe da Secção do P.E.R.H", "Interino(a)"]);
     const infoFuncionario = ref({});
     const addInfo = ref({
-      tipoTermo: "",
+      efeito_da_declaracao: "",
       chef_PERH: "",
       chef_PERH_interino: "",
       chef_PERH_interino_funcao: "",
       directoMunicipal: "",
       directoMunicipal_interino: "",
       directoMunicipal_interino_funcao: "",
-      escola_id: "",
+      conta_bancaria: "",
       provincia: "",
       municipio: "",
     });
@@ -520,7 +401,7 @@ export default {
       if (addInfo.value) {
         if (typeof addInfo.value === "object") {
           router.push({
-            name: "docPrint2",
+            name: "docPrintDeclaracao",
             params: {
               dados: JSON.stringify(dados.value),
               addInfo: JSON.stringify(addInfo.value),

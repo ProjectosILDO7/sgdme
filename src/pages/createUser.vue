@@ -3,18 +3,24 @@
     <q-page-container>
       <q-page padding>
         <q-form class="row justify-center" @submit.prevent="createUser">
-          <p class="col-12 text-h5 text-center q-mt-lg">Cadastro de DME</p>
+          <p class="col-12 text-h5 text-center q-mt-lg">Criar uma conta</p>
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-sm">
             <q-input
+              outlined
               v-model="form.name"
-              label="Nome"
+              label="Nome da Instituição"
               class="col-12"
               lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Porfavor digite seu nome',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-account" />
+              </template>
+            </q-input>
             <q-input
+              outlined
               v-model="form.email"
               label="E-mail"
               class="col-12"
@@ -23,8 +29,14 @@
                 (val) =>
                   (val && val.length > 0) || 'Porfavor digite seu e-mail',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-email" />
+              </template>
+            </q-input>
+
             <q-input
+              outlined
               v-model="form.phone"
               label="Telemovel"
               class="col-12"
@@ -33,9 +45,14 @@
                 (val) =>
                   (val && val.length > 0) || 'Porfavor digite seu e-mail',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-phone-dial" />
+              </template>
+            </q-input>
 
             <q-input
+              outlined
               v-model="form.password"
               label="Senha"
               type="password"
@@ -47,15 +64,19 @@
                   (val > 0 && val >= 6) ||
                   'A sua senha deve ter maior ou igual a 6 caracteres',
               ]"
-            ></q-input>
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-key-chain" />
+              </template>
+            </q-input>
 
             <q-btn
               type="submit"
               label="Criar conta"
               class="full-width q-mt-lg"
-              glossy
-              color="purple"
+              color="primary"
               no-caps
+              icon="mdi-account-tie"
             />
 
             <q-btn
@@ -63,7 +84,7 @@
               flat
               label="Esqueci minha senha"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
             <q-btn
@@ -71,7 +92,7 @@
               flat
               label="Já tenho uma conta"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
           </div>

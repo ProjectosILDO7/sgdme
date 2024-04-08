@@ -12,6 +12,7 @@
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-sm">
             <p class="text-center text-h5">D.M.E</p>
             <q-input
+              outlined
               v-model="form.email"
               label="E-mail"
               class="col-12"
@@ -20,9 +21,14 @@
                 (val) =>
                   (val && val.length > 0) || 'Porfavor digite seu e-mail',
               ]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-account" />
+              </template>
+            </q-input>
 
             <q-input
+              outlined
               v-model="form.password"
               label="Senha"
               type="password"
@@ -34,15 +40,18 @@
                   (val > 0 && val >= 6) ||
                   'A sua senha deve ter maior ou igual a 6 caracteres',
               ]"
-            ></q-input>
+            >
+              <template v-slot:prepend>
+                <q-icon name="mdi-lock" />
+              </template>
+            </q-input>
 
             <q-btn
               type="submit"
               label="Entrar"
               class="full-width q-mt-lg"
-              glossy
-              color="purple"
-              no-caps
+              color="primary"
+              icon="mdi-login"
             />
 
             <q-btn
@@ -50,7 +59,7 @@
               flat
               label="Esqueci minha senha"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
             <q-btn
@@ -58,7 +67,7 @@
               flat
               label="Criar uma conta"
               class="full-width q-mt-md"
-              color="purple"
+              color="primary"
               no-caps
             />
           </div>

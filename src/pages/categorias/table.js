@@ -8,14 +8,6 @@ const columns = [
     sortable: true,
   },
   {
-    name: "salario_base",
-    label: "Salario Base",
-    align: "left",
-    field: "salario_base",
-    sortable: true,
-    format: (val) => formatCurrency(val),
-  },
-  {
     name: "actions",
     label: "Opções",
     align: "left",
