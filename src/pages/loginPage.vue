@@ -10,7 +10,7 @@
           </p>
 
           <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-sm">
-            <p class="text-center text-h5">DMECH</p>
+            <p class="text-center text-h5">DME-CH</p>
             <q-input
               outlined
               v-model="form.email"
