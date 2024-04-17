@@ -67,7 +67,7 @@
           <div class="col-12" style="line-height: 1.5">
             <br />
             <pre class="StyleFontDocument">
-   Nome do beneficiário:
+   Nome do beneficiário: <b>Ildo Marques cuema</b>
    Situação:
    Categoria:
    Provimentos mensais do agregado familiar
